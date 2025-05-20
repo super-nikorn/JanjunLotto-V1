@@ -10,22 +10,34 @@ let numberStats = {};
 
 const querySnapshot = await getDocs(collection(db, "lottery"));
 
+let index = 0;
+
 querySnapshot.forEach((doc) => {
   const data = doc.data();
-  const row = `<tr>
-    <td>${data.name}</td>
-    <td>${data.number}</td>
-    <td>${data.type}</td>
-    <td>${data.amount}</td>
-  </tr>`;
-  dataList.innerHTML += row;
 
+  // ✅ สร้าง <tr> และเพิ่มคลาสสลับสี
+  const tr = document.createElement("tr");
+  tr.className = `${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b border-gray-200 hover:bg-indigo-50 transition`;
+
+  tr.innerHTML = `
+    <td class="py-2 px-4">${data.name}</td>
+    <td class="py-2 px-4">${data.number}</td>
+    <td class="py-2 px-4">${data.type}</td>
+    <td class="py-2 px-4 text-right text-indigo-700 font-semibold">${data.amount}</td>
+  `;
+
+  dataList.appendChild(tr);
+  index++;
+
+  // รวมยอดเงินทั้งหมด
   total += Number(data.amount);
 
+  // เก็บสถิติเลข
   if (!numberStats[data.number]) numberStats[data.number] = 0;
   numberStats[data.number] += Number(data.amount);
 });
 
+// แสดงยอดรวม
 totalAmount.textContent = total;
 
 // หาค่าเลขที่มียอดรวมเยอะสุด
