@@ -26,6 +26,7 @@
         <div class="hidden md:flex space-x-6">
           <a href="home.html" class="hover:text-gray-300">หน้าหลัก</a>
           <a href="add.html" class="hover:text-gray-300">เพิ่มโพยหวย</a>
+          <a href="customer.html" class="hover:text-gray-300">สมาชิก</a>
           <a href="report.html" class="hover:text-gray-300">รายงาน</a>
           <button onclick="logout()" class="hover:text-gray-300"></button>
         </div>
@@ -43,6 +44,7 @@
     <div id="mobileMenu" class="md:hidden px-4 pb-4 hidden">
       <a href="home.html" class="block py-2 hover:text-gray-300">หน้าหลัก</a>
       <a href="add.html" class="block py-2 hover:text-gray-300">เพิ่มโพย</a>
+      <a href="customer.html" class="hover:text-gray-300">สมาชิก</a>
       <a href="report.html" class="block py-2 hover:text-gray-300">รายงาน</a>
       <button onclick="logout()" class="block py-2 hover:text-gray-300">
         ออกจากระบบ
@@ -89,5 +91,13 @@
   </div>
   <script type="module" src="assets/js/add.js"></script>
 </body>
-
+<script>
+  document.getElementById("menuBtn").addEventListener("click", function () {
+    const menu = document.getElementById("mobileMenu");
+    menu.classList.toggle("hidden")
+  });
+  function logout() {
+    window.location = "index.html"
+  }
+</script>
 </html>

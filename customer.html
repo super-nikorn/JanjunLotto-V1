@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>รายงาน</title>
+    <title>สมาชิก</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" />
     <style>
@@ -20,7 +20,7 @@
         <div class="max-w-7xl max-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <a href="home.html">
-                    <img src="assets/image/janjun.png" alt="">
+                    <img src="assets/image/janjun.png" alt="" />
                 </a>
                 <!-- เมนูด้านขวา -->
                 <div class="hidden md:flex space-x-6">
@@ -52,15 +52,36 @@
             </button>
         </div>
     </nav>
-    <h1>นี่คือหน้ารายงาน</h1>
+    <div class="min-h-screen flex flex-col items-center p-4">
+        <h1 class="text-2xl font-bold text-indigo-700 mb-6 text-center">
+            เพิ่มสมาชิก
+        </h1>
+        <form id="addCustomerFrom" class="space-4">
+            <div>
+                <label class="block mb-1 font-medium mt-4">ชื่อสมาชิก</label>
+                <input type="text" name="name" required
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+                <label class="block mb-1 font-mediu mt-4">เบอร์โทร</label>
+                <input type="text" name="tel" required
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+                <label class="block mb-1 font-mediu mt-4">Line ID (ถ้ามี)</label>
+                <input type="text" name="tel" required
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+        </form>
+    </div>
 </body>
 <script>
     document.getElementById("menuBtn").addEventListener("click", function () {
         const menu = document.getElementById("mobileMenu");
-        menu.classList.toggle("hidden")
+        menu.classList.toggle("hidden");
     });
     function logout() {
-        window.location = "index.html"
+        window.location = "index.html";
     }
 </script>
 
