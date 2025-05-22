@@ -38,7 +38,10 @@ querySnapshot.forEach((doc) => {
 });
 
 // แสดงยอดรวม
-totalAmount.textContent = total;
+totalAmount.textContent = total.toLocaleString('th-Th', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+});
 
 // หาค่าเลขที่มียอดรวมเยอะสุด
 let maxNum = "-";
@@ -49,4 +52,7 @@ for (let num in numberStats) {
     maxNum = num;
   }
 }
-topNumber.textContent = `${maxNum} (${maxAmt} บาท)`;
+topNumber.textContent = `${maxNum} (${maxAmt.toLocaleString('th-Th', {
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
+})})`;
