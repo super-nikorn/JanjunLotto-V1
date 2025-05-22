@@ -79,6 +79,48 @@
         </button>
       </div>
     </nav>
+
+    <div
+      class="w-full mx-auto mt-10 p-6 bg-white rounded-xl shadow-md text-center"
+    >
+      <h2 class="text-2xl font-bold text-gray-800">ตรวจสลากกินแบ่งรัฐบาล</h2>
+      <p class="text-lg text-red-600 mt-2">
+        ตรวจหวย <span id="lotto-round">--</span>
+      </p>
+
+      <div
+        class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-center text-gray-700"
+      >
+        <!-- รางวัลที่ 1 -->
+        <div class="col-span-1 md:col-span-1">
+          <p class="text-3xl text-red-600 font-bold" id="first-prize">--</p>
+          <p class="text-sm text-gray-500">รางวัลที่ 1</p>
+          <p class="text-xs text-gray-400">รางวัลละ 6,000,000 บาท</p>
+        </div>
+
+        <!-- เลขหน้า 3 ตัว -->
+        <div>
+          <p class="text-2xl font-semibold" id="three-front">--</p>
+          <p class="text-sm text-gray-500">เลขหน้า 3 ตัว</p>
+          <p class="text-xs text-gray-400">2 รางวัลๆละ 4,000 บาท</p>
+        </div>
+
+        <!-- เลขท้าย 3 ตัว -->
+        <div>
+          <p class="text-2xl font-semibold" id="three-back">--</p>
+          <p class="text-sm text-gray-500">เลขท้าย 3 ตัว</p>
+          <p class="text-xs text-gray-400">2 รางวัลๆละ 4,000 บาท</p>
+        </div>
+
+        <!-- เลขท้าย 2 ตัว -->
+        <div>
+          <p class="text-2xl font-semibold" id="two-digit">--</p>
+          <p class="text-sm text-gray-500">เลขท้าย 2 ตัว</p>
+          <p class="text-xs text-gray-400">1 รางวัลๆละ 2,000 บาท</p>
+        </div>
+      </div>
+    </div>
+
     <div class="w-full bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Total Amount -->
@@ -214,7 +256,7 @@
           class="w-full p-2 border rounded"
           required
         />
-        <input type="checkbox">
+        <input type="checkbox" />
         <label>ส่งข้อมูลทางไลน์หรือไม่?</label>
         <div>
           <label class="block mb-1 font-medium">ระดับสมาชิก</label>
@@ -279,7 +321,6 @@
       </script>
     </dialog>
   </body>
-
   <script>
     document.getElementById("menuBtn").addEventListener("click", function () {
       const menu = document.getElementById("mobileMenu");

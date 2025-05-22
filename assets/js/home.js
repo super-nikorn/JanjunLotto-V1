@@ -1,5 +1,8 @@
-import { db } from './firebase-config.js';
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { db } from "./firebase-config.js";
+import {
+  collection,
+  getDocs,
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const dataList = document.getElementById("dataList");
 const totalAmount = document.getElementById("totalAmount");
@@ -30,21 +33,25 @@ dataArray.sort((a, b) => b.amount - a.amount);
 // ✅ 3. สร้าง <tr> ตามลำดับใหม่
 dataArray.forEach((data, index) => {
   const tr = document.createElement("tr");
-  tr.className = `${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b border-gray-200 hover:bg-indigo-50 transition`;
+  tr.className = `${
+    index % 2 === 0 ? "bg-white" : "bg-gray-50"
+  } border-b border-gray-200 hover:bg-indigo-50 transition`;
 
   tr.innerHTML = `
     <td class="py-2 px-4">${data.name}</td>
     <td class="py-2 px-4">${data.number}</td>
     <td class="py-2 px-4">${data.type}</td>
-    <td class="py-2 px-4 text-right text-indigo-700 font-semibold">${Number(data.amount).toLocaleString('th-TH')}</td>
+    <td class="py-2 px-4 text-right text-indigo-700 font-semibold">${Number(
+      data.amount
+    ).toLocaleString("th-TH")}</td>
   `;
   dataList.appendChild(tr);
 });
 
 // ✅ แสดงยอดรวม
-totalAmount.textContent = total.toLocaleString('th-TH', {
+totalAmount.textContent = total.toLocaleString("th-TH", {
   minimumFractionDigits: 2,
-  maximumFractionDigits: 2
+  maximumFractionDigits: 2,
 });
 
 // ✅ หาค่าเลขที่มียอดรวมเยอะสุด
@@ -56,7 +63,26 @@ for (let num in numberStats) {
     maxNum = num;
   }
 }
-topNumber.textContent = `${maxNum} (${maxAmt.toLocaleString('th-TH', {
+topNumber.textContent = `${maxNum} (${maxAmt.toLocaleString("th-TH", {
   minimumFractionDigits: 2,
-  maximumFractionDigits: 2
+  maximumFractionDigits: 2,
 })})`;
+
+fetch("https://lotto.api.rayriffy.com/latest")
+  .then(response => response.json())
+  .then(data => {
+    const result = data.response;
+    document.getElementById("lotto-round").textContent = result.date;
+
+    const firstPrize = result.prizes.find(p => p.id === "prizeFirst");
+    document.getElementById("first-prize").textContent = firstPrize?.number[0] || "--";
+
+    const frontThree = result.runningNumbers.find(p => p.id === "runningNumberFrontThree");
+    document.getElementById("three-front").textContent = frontThree?.number.join(" ") || "--";
+
+    const backThree = result.runningNumbers.find(p => p.id === "runningNumberBackThree");
+    document.getElementById("three-back").textContent = backThree?.number.join(" ") || "--";
+
+    const twoDigit = result.runningNumbers.find(p => p.id === "runningNumberBackTwo");
+    document.getElementById("two-digit").textContent = twoDigit?.number[0] || "--";
+  });
