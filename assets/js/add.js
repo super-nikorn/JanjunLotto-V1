@@ -8,7 +8,7 @@ document
   .getElementById("addTicketForm")
   .addEventListener("submit", async (e) => {
     e.preventDefault();
-    const dialog = document.getElementById("addTicketDialog");
+    const dialogaddTk = document.getElementById("addTicketDialog");
     const name = e.target.name.value;
     const number = e.target.number.value;
     const type = e.target.type.value;
@@ -23,7 +23,7 @@ document
       });
       alert("บันทึกโพยเรียบร้อย!");
       e.target.reset();
-      dialog.close();
+      dialogaddTk.close();
     } catch (err) {
       alert("เกิดข้อผิดพลาด: " + err);
     }

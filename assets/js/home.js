@@ -8,26 +8,13 @@ const topNumber = document.getElementById("topNumber");
 let total = 0;
 let numberStats = {};
 
+// ✅ 1. ดึงข้อมูลทั้งหมดมาใส่ในอาเรย์ก่อน
 const querySnapshot = await getDocs(collection(db, "lottery"));
-
-let index = 0;
+const dataArray = [];
 
 querySnapshot.forEach((doc) => {
   const data = doc.data();
-
-  // ✅ สร้าง <tr> และเพิ่มคลาสสลับสี
-  const tr = document.createElement("tr");
-  tr.className = `${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b border-gray-200 hover:bg-indigo-50 transition`;
-
-  tr.innerHTML = `
-    <td class="py-2 px-4">${data.name}</td>
-    <td class="py-2 px-4">${data.number}</td>
-    <td class="py-2 px-4">${data.type}</td>
-    <td class="py-2 px-4 text-right text-indigo-700 font-semibold">${data.amount}</td>
-  `;
-
-  dataList.appendChild(tr);
-  index++;
+  dataArray.push(data);
 
   // รวมยอดเงินทั้งหมด
   total += Number(data.amount);
@@ -37,13 +24,30 @@ querySnapshot.forEach((doc) => {
   numberStats[data.number] += Number(data.amount);
 });
 
-// แสดงยอดรวม
-totalAmount.textContent = total.toLocaleString('th-Th', {
+// ✅ 2. เรียงจากมากไปน้อยตาม amount
+dataArray.sort((a, b) => b.amount - a.amount);
+
+// ✅ 3. สร้าง <tr> ตามลำดับใหม่
+dataArray.forEach((data, index) => {
+  const tr = document.createElement("tr");
+  tr.className = `${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} border-b border-gray-200 hover:bg-indigo-50 transition`;
+
+  tr.innerHTML = `
+    <td class="py-2 px-4">${data.name}</td>
+    <td class="py-2 px-4">${data.number}</td>
+    <td class="py-2 px-4">${data.type}</td>
+    <td class="py-2 px-4 text-right text-indigo-700 font-semibold">${Number(data.amount).toLocaleString('th-TH')}</td>
+  `;
+  dataList.appendChild(tr);
+});
+
+// ✅ แสดงยอดรวม
+totalAmount.textContent = total.toLocaleString('th-TH', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2
 });
 
-// หาค่าเลขที่มียอดรวมเยอะสุด
+// ✅ หาค่าเลขที่มียอดรวมเยอะสุด
 let maxNum = "-";
 let maxAmt = 0;
 for (let num in numberStats) {
@@ -52,7 +56,7 @@ for (let num in numberStats) {
     maxNum = num;
   }
 }
-topNumber.textContent = `${maxNum} (${maxAmt.toLocaleString('th-Th', {
-  minimumFractionDigits:2,
-  maximumFractionDigits:2
+topNumber.textContent = `${maxNum} (${maxAmt.toLocaleString('th-TH', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
 })})`;
