@@ -40,8 +40,8 @@ dataArray.forEach((data, index) => {
     index % 2 === 0 ? "bg-white" : "bg-gray-50"
   } border-b border-gray-200 hover:bg-indigo-50 transition`;
 
+  // <td class="py-2 px-4">${data.displayId}</td>
   tr.innerHTML = `
-    <td class="py-2 px-4">${data.displayId}</td>
     <td class="py-2 px-4">${data.name}</td>
     <td class="py-2 px-4">${data.number}</td>
     <td class="py-2 px-4">${data.type}</td>
@@ -74,20 +74,30 @@ topNumber.textContent = `${maxNum} (${maxAmt.toLocaleString("th-TH", {
 })})`;
 
 fetch("https://lotto.api.rayriffy.com/latest")
-  .then(response => response.json())
-  .then(data => {
+  .then((response) => response.json())
+  .then((data) => {
     const result = data.response;
     document.getElementById("lotto-round").textContent = result.date;
 
-    const firstPrize = result.prizes.find(p => p.id === "prizeFirst");
-    document.getElementById("first-prize").textContent = firstPrize?.number[0] || "--";
+    const firstPrize = result.prizes.find((p) => p.id === "prizeFirst");
+    document.getElementById("first-prize").textContent =
+      firstPrize?.number[0] || "--";
 
-    const frontThree = result.runningNumbers.find(p => p.id === "runningNumberFrontThree");
-    document.getElementById("three-front").textContent = frontThree?.number.join(" ") || "--";
+    const frontThree = result.runningNumbers.find(
+      (p) => p.id === "runningNumberFrontThree"
+    );
+    document.getElementById("three-front").textContent =
+      frontThree?.number.join(" ") || "--";
 
-    const backThree = result.runningNumbers.find(p => p.id === "runningNumberBackThree");
-    document.getElementById("three-back").textContent = backThree?.number.join(" ") || "--";
+    const backThree = result.runningNumbers.find(
+      (p) => p.id === "runningNumberBackThree"
+    );
+    document.getElementById("three-back").textContent =
+      backThree?.number.join(" ") || "--";
 
-    const twoDigit = result.runningNumbers.find(p => p.id === "runningNumberBackTwo");
-    document.getElementById("two-digit").textContent = twoDigit?.number[0] || "--";
+    const twoDigit = result.runningNumbers.find(
+      (p) => p.id === "runningNumberBackTwo"
+    );
+    document.getElementById("two-digit").textContent =
+      twoDigit?.number[0] || "--";
   });

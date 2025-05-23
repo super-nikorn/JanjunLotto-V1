@@ -1,3 +1,5 @@
+// assets/js/add.js
+
 import { db } from "./firebase-config.js";
 import {
   collection,
@@ -7,49 +9,118 @@ import {
   doc,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-document
-  .getElementById("addTicketForm")
-  .addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const dialogaddTk = document.getElementById("addTicketDialog");
-    const name = e.target.name.value;
-    const number = e.target.number.value;
-    const type = e.target.type.value;
-    const amount = Number(e.target.amount.value);
+function formatDateYYMMDD(date) {
+  const yy = String(date.getFullYear()).slice(2);
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+  return `${yy}${mm}${dd}`;
+}
 
-    // ฟอร์แมตวันที่เป็น YYMMDD
-    const now = new Date();
-    const yy = String(now.getFullYear()).slice(2);
-    const mm = String(now.getMonth() + 1).padStart(2, "0");
-    const dd = String(now.getDate()).padStart(2, "0");
-    const dateStr = `${yy}${mm}${dd}`; // เช่น 250523
-    const prefix = `ticket${dateStr}`;
+function generateNewTicketId(todayDocs, prefix) {
+  const newIndex = todayDocs.length + 1;
+  return `${prefix}${String(newIndex).padStart(3, "0")}`;
+}
+
+// ฟังก์ชัน saveTicket แค่รับข้อมูลแล้วบันทึก
+export async function saveTicket({ name, number, type, amount }) {
+  const now = new Date();
+  const dateStr = formatDateYYMMDD(now);
+  const prefix = `ticket${dateStr}`;
+
+  const q = query(collection(db, "lottery"));
+  const snapshot = await getDocs(q);
+  const todayDocs = snapshot.docs.filter((doc) => doc.id.startsWith(prefix));
+  const id = generateNewTicketId(todayDocs, prefix);
+
+  await setDoc(doc(db, "lottery", id), {
+    name,
+    number,
+    type,
+    amount,
+    date: now.toISOString().split("T")[0], // YYYY-MM-DD
+  });
+}
+
+// ฟังก์ชันจัดการ submit form
+export function setupAddTicketForm() {
+  const form = document.getElementById("addTicketForm");
+  const dialogaddTk = document.getElementById("addTicketDialog");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = form.name.value.trim();
+    const number = form.number.value.trim();
+    const type = form.type.value;
+    const amount = Number(form.amount.value);
+
+    if (!name || !number || !type || !amount) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+      return;
+    }
 
     try {
-      // ดึงโพยทั้งหมด แล้วกรองเฉพาะของวันนี้
-      const q = query(collection(db, "lottery"));
-      const snapshot = await getDocs(q);
-      const todayDocs = snapshot.docs.filter((doc) =>
-        doc.id.startsWith(prefix)
-      );
+      form.querySelector('button[type="submit"]').disabled = true;
+      await saveTicket({ name, number, type, amount });
 
-      // หาลำดับล่าสุด แล้วเพิ่ม 1
-      const newIndex = todayDocs.length + 1;
-      const id = `${prefix}${String(newIndex).padStart(3, "0")}`;
-
-      // บันทึกข้อมูล
-      await setDoc(doc(db, "lottery", id), {
-        name,
-        number,
-        type,
-        amount,
-        date: now.toISOString().split("T")[0], // YYYY-MM-DD
-      });
       alert("บันทึกโพยเรียบร้อย!");
-      window.location.reload();
-      e.target.reset();
+      form.reset();
       dialogaddTk.close();
+
+      // รีโหลดหรือรีเฟรชข้อมูลแบบอื่นก็ได้
+      window.location.reload();
     } catch (err) {
-      alert("เกิดข้อผิดพลาด: " + err);
+      alert("เกิดข้อผิดพลาด: " + err.message);
+    } finally {
+      form.querySelector('button[type="submit"]').disabled = false;
     }
   });
+}
+
+// ฟังก์ชันตั้งค่า form เลข 2-3 ตัว (เหมือนเดิม)
+export function setupDigitTypeForm() {
+  const digitRadios = document.querySelectorAll('input[name="digitType"]');
+  const numberInput = document.getElementById("numberInput");
+  const typeSelect = document.getElementById("typeSelect");
+
+  const typeOptions = {
+    2: ["บน", "ล่าง", "บน-ล่าง"],
+    "3-front": ["3 ตัวหน้า"],
+    "3-back": ["3 ตัวท้าย"],
+  };
+
+  function setDigitType(type) {
+    if (type === "2") {
+      numberInput.maxLength = 2;
+      numberInput.pattern = "\\d{2}";
+      numberInput.placeholder = "เลข 2 ตัว";
+      typeSelect.disabled = false;
+    } else {
+      numberInput.maxLength = 3;
+      numberInput.pattern = "\\d{3}";
+      numberInput.placeholder =
+        type === "3-front" ? "เลข 3 ตัวหน้า" : "เลข 3 ตัวท้าย";
+      typeSelect.disabled = true;
+    }
+
+    numberInput.value = "";
+
+    typeSelect.innerHTML = "";
+    typeOptions[type].forEach((val) => {
+      const option = document.createElement("option");
+      option.value = val;
+      option.textContent = val;
+      typeSelect.appendChild(option);
+    });
+  }
+
+  digitRadios.forEach((radio) => {
+    radio.addEventListener("change", () => {
+      setDigitType(radio.value);
+    });
+  });
+
+  document
+    .querySelector('input[name="digitType"]:checked')
+    ?.dispatchEvent(new Event("change"));
+}
