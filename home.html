@@ -1,205 +1,286 @@
 <!DOCTYPE html>
 <html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>เจ้ามือหวย - หน้าแรก</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Noto sans Thai", sans-serif;
+        background-color: #f9fafb;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>เจ้ามือหวย - หน้าแรก</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      font-family: "Noto sans Thai", sans-serif;
-      background-color: #f9fafb;
-    }
-  </style>
-</head>
-
-<body>
-  <nav class="bg-indigo-600 text-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16 items-center">
-        <div class="flex-shrink-0">
-          <a href="home.html">
-            <img src="assets/image/janjun.png" alt="Logo" />
-          </a>
-        </div>
-        <!-- เมนูด้านขวา -->
-        <div class="hidden md:flex item-center space-x-6">
-          <a href="home.html" class="hover:text-gray-300">หน้าหลัก</a>
-          <button class="openaddTicket hover:text-gray-300">
-            เพิ่มโพยหวย
-          </button>
-          <button class="openaddCustomer hover:text-gray-300">
-            เพิ่มสมาชิก
-          </button>
-          <a href="report.html" class="hover:text-gray-300">รายงาน</a>
-          <button class="logoutBtn hover:text-gray-300">ออกจากระบบ</button>
-        </div>
-        <!-- เมนูมือถือ -->
-        <div class="md:hidden">
-          <button id="menuBtn" class="focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- เมนูมือถือ (Dropdown) -->
-    <div id="mobileMenu" class="md:hidden px-4 pb-4 hidden">
-      <a href="home.html" class="block py-2 hover:text-gray-300">หน้าหลัก</a>
-      <button class="openaddTicket block py-2 hover:text-gray-300">
-        เพิ่มโพยหวย
-      </button>
-      <button class="openaddCustomer block py-2 hover:text-gray-300">
-        เพิ่มสมาชิก
-      </button>
-      <a href="report.html" class="block py-2 hover:text-gray-300">รายงาน</a>
-      <button class="logoutBtn block py-2 hover:text-gray-300">ออกจากระบบ</button>
-    </div>
-  </nav>
-
-  <div class="max-w-4xl mx-auto mt-4 p-6 bg-white rounded-xl shadow-md text-center">
-    <h2 class="text-2xl font-bold text-gray-800">ผลสลากกินแบ่งรัฐบาล</h2>
-    <p class="text-lg text-red-600 mt-2">
-      ประจำวันที่ <span id="lotto-round">--</span>
-    </p>
-
-    <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-center text-gray-700">
-      <!-- รางวัลที่ 1 -->
-      <div class="col-span-1 md:col-span-1">
-        <p class="text-3xl text-red-600 font-bold" id="first-prize">--</p>
-        <p class="text-sm text-gray-500">รางวัลที่ 1</p>
-        <p class="text-xs text-gray-400">รางวัลละ 6,000,000 บาท</p>
-      </div>
-
-      <!-- เลขหน้า 3 ตัว -->
-      <div>
-        <p class="text-2xl font-semibold" id="three-front">--</p>
-        <p class="text-sm text-gray-500">เลขหน้า 3 ตัว</p>
-        <p class="text-xs text-gray-400">2 รางวัลๆละ 4,000 บาท</p>
-      </div>
-
-      <!-- เลขท้าย 3 ตัว -->
-      <div>
-        <p class="text-2xl font-semibold" id="three-back">--</p>
-        <p class="text-sm text-gray-500">เลขท้าย 3 ตัว</p>
-        <p class="text-xs text-gray-400">2 รางวัลๆละ 4,000 บาท</p>
-      </div>
-
-      <!-- เลขท้าย 2 ตัว -->
-      <div>
-        <p class="text-2xl font-semibold" id="two-digit">--</p>
-        <p class="text-sm text-gray-500">เลขท้าย 2 ตัว</p>
-        <p class="text-xs text-gray-400">1 รางวัลๆละ 2,000 บาท</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Total Amount -->
-      <div class="bg-indigo-50 p-4 rounded-lg">
-        <p class="text-gray-600 text-sm">ยอดรวมทั้งหมด</p>
-        <p class="text-2xl font-bold text-indigo-700">
-          <span id="totalAmount">0</span>
-          <span class="text-base font-medium text-gray-700">บาท</span>
-        </p>
-      </div>
-      <!-- Top Number -->
-      <div class="bg-indigo-50 p-4 rounded-lg">
-        <p class="text-gray-600 text-sm">เลขที่ถูกซื้อเยอะที่สุด</p>
-        <p class="text-2xl font-bold text-indigo-700">
-          <span id="topNumber">0</span>
-          <span class="text-base font-medium text-gray-700">บาท</span>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="max-w-4xl mx-auto overflow-x-auto shadow-lg rounded-lg mt-2">
-    <table class="w-full border-collapse bg-white mb-4">
-      <thead class="bg-indigo-500 text-white uppercase text-sm">
-        <tr>
-          <!-- <th class="py-2 px-4">เลขที่</th> -->
-          <th class="py-2 px-4">ชื่อผู้ซื้อ</th>
-          <th class="py-2 px-4">เลขที่ซื้อ</th>
-          <th class="py-2 px-4">ประเภท</th>
-          <!-- <th class="py-2 px-4">วันที่</th> -->
-          <th class="py-2 px-4">จำนวนเงิน</th>
-        </tr>
-      </thead>
-      <tbody id="dataList" class="text-gray-700 text-sm text-center"></tbody>
-    </table>
-  </div>
-  <script type="module" src="assets/js/home.js"></script>
-  <div>
-    <p class="text-red-500 text-xs mt-2 text-center mb-2">
-      ข้อมูลอัพเดทเมื่อมาอยู่ที่หน้าแรก
-    </p>
-  </div>
-  <!-- ✅ DIALOG: เพิ่มโพยหวย -->
-  <dialog id="addTicketDialog" class="rounded-md shadow-md p-4 w-80">
-    <form id="addTicketForm" method="dialog" class="space-y-3">
-      <h2 class="text-lg font-semibold">เพิ่มโพยหวย</h2>
-      <div class="mb-4">
-        <label class="block mb-1 font-medium">เลือกประเภทเลข</label>
-        <div class="flex gap-4">
-          <label><input type="radio" name="digitType" value="2" checked /> 2
-            ตัว</label>
-          <label><input type="radio" name="digitType" value="3-front" checked /> 3
-            ตัวหน้า</label>
-          <label><input type="radio" name="digitType" value="3-back" checked /> 3
-            ตัวท้าย</label>
+  <body>
+    <nav class="bg-indigo-600 text-white shadow-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex-shrink-0">
+            <a href="home.html">
+              <img src="assets/image/janjun.png" alt="Logo" />
+            </a>
+          </div>
+          <!-- เมนูด้านขวา -->
+          <div class="hidden md:flex item-center space-x-6">
+            <a href="home.html" class="hover:text-gray-300">หน้าหลัก</a>
+            <button class="openaddTicket hover:text-gray-300">
+              เพิ่มโพยหวย
+            </button>
+            <button class="openaddCustomer hover:text-gray-300">
+              เพิ่มสมาชิก
+            </button>
+            <a href="report.html" class="hover:text-gray-300">รายงาน</a>
+            <button class="logoutBtn hover:text-gray-300">ออกจากระบบ</button>
+          </div>
+          <!-- เมนูมือถือ -->
+          <div class="md:hidden">
+            <button id="menuBtn" class="focus:outline-none">
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-
-      <div>
-        <p class="text-red-500 text-xs mt-2 text-left">
-          กรุณาเลือกอย่างน้อย 1 อย่าง
-        </p>
-      </div>
-      <input type="text" name="name" placeholder="ชื่อผู้ซื้อ" class="w-full p-2 border rounded" required />
-      <input type="text" name="number" id="numberInput" placeholder="เลขที่ซื้อ" class="w-full p-2 border rounded mb-2"
-        maxlength="2" pattern="\d{2}" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-      <div>
-        <label class="block mb-1 font-medium">ประเภท</label>
-        <select name="type" id="typeSelect" required
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-          <option value="บน">บน</option>
-          <option value="ล่าง">ล่าง</option>
-          <option value="บน-ล่าง">บน-ล่าง</option>
-          <option value="3 ตัวหน้า">3 ตัวท้าย</option>
-          <option value="3 ตัวท้าย">3 ตัวท้าย</option>
-        </select>
-      </div>
-
-      <input type="number" name="amount" placeholder="จำนวนเงิน" class="w-full p-2 border rounded" required />
-      <p>วันที่ : <span id="currentDate"></span></p>
-      <div class="flex justify-end gap-2 pt-2">
-        <button type="button" id="cancelAddTicketBtn" class="bg-gray-300 px-3 py-1 rounded">
-          ยกเลิก
+      <!-- เมนูมือถือ (Dropdown) -->
+      <div id="mobileMenu" class="md:hidden px-4 pb-4 hidden">
+        <a href="home.html" class="block py-2 hover:text-gray-300">หน้าหลัก</a>
+        <button class="openaddTicket block py-2 hover:text-gray-300">
+          เพิ่มโพยหวย
         </button>
-        <button type="submit" class="bg-indigo-600 text-white px-3 py-1 rounded">
-          บันทึก
+        <button class="openaddCustomer block py-2 hover:text-gray-300">
+          เพิ่มสมาชิก
+        </button>
+        <a href="report.html" class="block py-2 hover:text-gray-300">รายงาน</a>
+        <button class="logoutBtn block py-2 hover:text-gray-300">
+          ออกจากระบบ
         </button>
       </div>
-    </form>
+    </nav>
 
+    <div
+      class="max-w-4xl mx-auto mt-4 p-6 bg-white rounded-xl shadow-md text-center"
+    >
+      <h2 class="text-2xl font-bold text-gray-800">ผลสลากกินแบ่งรัฐบาล</h2>
+      <p class="text-lg text-red-600 mt-2">
+        ประจำวันที่ <span id="lotto-round">--</span>
+      </p>
+
+      <div
+        class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-center text-gray-700"
+      >
+        <!-- รางวัลที่ 1 -->
+        <div class="col-span-1 md:col-span-1">
+          <p class="text-3xl text-red-600 font-bold" id="first-prize">--</p>
+          <p class="text-sm text-gray-500">รางวัลที่ 1</p>
+          <p class="text-xs text-gray-400">รางวัลละ 6,000,000 บาท</p>
+        </div>
+
+        <!-- เลขหน้า 3 ตัว -->
+        <div>
+          <p class="text-2xl font-semibold" id="three-front">--</p>
+          <p class="text-sm text-gray-500">เลขหน้า 3 ตัว</p>
+          <p class="text-xs text-gray-400">2 รางวัลๆละ 4,000 บาท</p>
+        </div>
+
+        <!-- เลขท้าย 3 ตัว -->
+        <div>
+          <p class="text-2xl font-semibold" id="three-back">--</p>
+          <p class="text-sm text-gray-500">เลขท้าย 3 ตัว</p>
+          <p class="text-xs text-gray-400">2 รางวัลๆละ 4,000 บาท</p>
+        </div>
+
+        <!-- เลขท้าย 2 ตัว -->
+        <div>
+          <p class="text-2xl font-semibold" id="two-digit">--</p>
+          <p class="text-sm text-gray-500">เลขท้าย 2 ตัว</p>
+          <p class="text-xs text-gray-400">1 รางวัลๆละ 2,000 บาท</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Total Amount -->
+        <div class="bg-indigo-50 p-4 rounded-lg">
+          <p class="text-gray-600 text-sm">ยอดรวมทั้งหมด</p>
+          <p class="text-2xl font-bold text-indigo-700">
+            <span id="totalAmount">0</span>
+            <span class="text-base font-medium text-gray-700">บาท</span>
+          </p>
+        </div>
+        <!-- Top Number -->
+        <div class="bg-indigo-50 p-4 rounded-lg">
+          <p class="text-gray-600 text-sm">เลขที่ถูกซื้อเยอะที่สุด</p>
+          <p class="text-2xl font-bold text-indigo-700">
+            <span id="topNumber">0</span>
+            <span class="text-base font-medium text-gray-700">บาท</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-4xl mx-auto overflow-x-auto shadow-lg rounded-lg mt-2">
+      <table class="w-full border-collapse bg-white mb-4">
+        <thead class="bg-indigo-500 text-white uppercase text-sm">
+          <tr>
+            <!-- <th class="py-2 px-4">เลขที่</th> -->
+            <th class="py-2 px-4">ชื่อผู้ซื้อ</th>
+            <th class="py-2 px-4">เลขที่ซื้อ</th>
+            <th class="py-2 px-4">ประเภท</th>
+            <!-- <th class="py-2 px-4">วันที่</th> -->
+            <th class="py-2 px-4">จำนวนเงิน</th>
+          </tr>
+        </thead>
+        <tbody id="dataList" class="text-gray-700 text-sm text-center"></tbody>
+      </table>
+    </div>
+    <div>
+      <p class="text-red-500 text-xs mt-2 text-center mb-2">
+        ข้อมูลอัพเดทเมื่อมาอยู่ที่หน้าแรก
+      </p>
+    </div>
+    <!-- ✅ DIALOG: เพิ่มโพยหวย -->
+    <dialog id="addTicketDialog" class="rounded-md shadow-md p-4 w-80">
+      <form id="addTicketForm" method="dialog" class="space-y-3">
+        <h2 class="text-lg font-semibold">เพิ่มโพยหวย</h2>
+        <div class="mb-4">
+          <label class="block mb-1 font-medium">เลือกประเภทเลข</label>
+          <div class="flex gap-4">
+            <label
+              ><input type="radio" name="digitType" value="2" checked /> 2
+              ตัว</label
+            >
+            <label
+              ><input type="radio" name="digitType" value="3-front" checked /> 3
+              ตัวหน้า</label
+            >
+            <label
+              ><input type="radio" name="digitType" value="3-back" checked /> 3
+              ตัวท้าย</label
+            >
+          </div>
+        </div>
+
+        <div>
+          <p class="text-red-500 text-xs mt-2 text-left">
+            กรุณาเลือกอย่างน้อย 1 อย่าง
+          </p>
+        </div>
+        <div class="flex gap-2">
+          <input
+            type="text"
+            name="name"
+            placeholder="ชื่อผู้ซื้อ"
+            class="w-full p-2 border rounded"
+            required
+          />
+        </div>
+        <input
+          type="text"
+          name="number"
+          id="numberInput"
+          placeholder="เลขที่ซื้อ"
+          class="w-full p-2 border rounded mb-2"
+          maxlength="2"
+          pattern="\d{2}"
+          required
+          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+        />
+        <div>
+          <label class="block mb-1 font-medium">ประเภท</label>
+          <select
+            name="type"
+            id="typeSelect"
+            required
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="บน">บน</option>
+            <option value="ล่าง">ล่าง</option>
+            <option value="บน-ล่าง">บน-ล่าง</option>
+            <option value="3 ตัวหน้า">3 ตัวท้าย</option>
+            <option value="3 ตัวท้าย">3 ตัวท้าย</option>
+          </select>
+        </div>
+
+        <input
+          type="number"
+          name="amount"
+          placeholder="จำนวนเงิน"
+          class="w-full p-2 border rounded"
+          required
+        />
+        <p>วันที่ : <span id="currentDate"></span></p>
+        <div class="flex justify-end gap-2 pt-2">
+          <button
+            type="button"
+            id="cancelAddTicketBtn"
+            class="bg-gray-300 px-3 py-1 rounded"
+          >
+            ยกเลิก
+          </button>
+          <button
+            type="submit"
+            class="bg-indigo-600 text-white px-3 py-1 rounded"
+          >
+            บันทึก
+          </button>
+        </div>
+      </form>
+    </dialog>
     <!-- ✅ DIALOG: เพิ่มสมาชิก -->
     <dialog id="addCustomerDialog" class="rounded-md shadow-md p-4 w-80">
       <form id="addCustomerForm" method="dialog" class="space-y-3">
         <h2 class="text-lg font-semibold">เพิ่มสมาชิก</h2>
 
-        <input type="text" name="name" placeholder="กรอกชื่อสมาชิก" class="w-full p-2 border rounded" required />
-        <input type="text" name="tel" placeholder="เบอร์โทร" class="w-full p-2 border rounded" required />
-        <input type="text" name="text" placeholder="ID LINE (ถ้ามี)" class="w-full p-2 border rounded" required />
+        <input
+          type="text"
+          name="name"
+          placeholder="กรอกชื่อสมาชิก"
+          class="w-full p-2 border rounded"
+          required
+        />
+        <input
+          type="text"
+          name="tel"
+          placeholder="เบอร์โทร"
+          class="w-full p-2 border rounded"
+          required
+        />
+        <input
+          type="text"
+          name="text"
+          placeholder="ID LINE (ถ้ามี)"
+          class="w-full p-2 border rounded"
+          required
+        />
         <input type="checkbox" />
         <label>ส่งข้อมูลทางไลน์หรือไม่?</label>
         <div>
           <label class="block mb-1 font-medium">ระดับสมาชิก</label>
-          <select name="type" required
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <select
+            name="type"
+            required
+            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
             <!-- <option value="5">5%</option> -->
             <option value="1">1%</option>
             <option value="2">2%</option>
@@ -220,34 +301,43 @@
           <p class="text-red-500 text-xs mt-2">ลดราคาตามเปอร์เซ็นที่เลือก</p>
         </div>
         <div class="flex justify-end gap-2 pt-2">
-          <button type="button" id="cancelAddCustomerBtn" class="bg-gray-300 px-3 py-1 rounded">
+          <button
+            type="button"
+            id="cancelAddCustomerBtn"
+            class="bg-gray-300 px-3 py-1 rounded"
+          >
             ยกเลิก
           </button>
-          <button type="submit" class="bg-indigo-600 text-white px-3 py-1 rounded">
+          <button
+            type="submit"
+            class="bg-indigo-600 text-white px-3 py-1 rounded"
+          >
             บันทึก
           </button>
         </div>
       </form>
     </dialog>
-</body>
+  </body>
 
-<script type="module">
-  import { setupMenuToggle, setupLogoutButton } from "/assets/js/ui.js";
-  import { setCurrentDate } from "./assets/js/date.js";
-  import { setupCustomerDialog, setupTicketDialog } from "./assets/js/modal.js"
-  import { setupDigitTypeForm, setupAddTicketForm } from "/assets/js/add.js";
-  import { initHomePage } from "/assets/js/home.js";
+  <script type="module">
+    import { setupMenuToggle, setupLogoutButton } from "/assets/js/ui.js";
+    import { setCurrentDate } from "./assets/js/date.js";
+    import {
+      setupCustomerDialog,
+      setupTicketDialog,
+    } from "./assets/js/modal.js";
+    import { setupDigitTypeForm, setupAddTicketForm } from "/assets/js/add.js";
+    import { initHomePage } from "/assets/js/home.js";
 
-  document.addEventListener("DOMContentLoaded", () => {
-    setupLogoutButton();
-    setCurrentDate();
-    setupMenuToggle();
-    setupCustomerDialog();
-    setupTicketDialog();
-    setupDigitTypeForm();
-    setupAddTicketForm();
-    initHomePage();
-  });
-</script>
-
+    document.addEventListener("DOMContentLoaded", () => {
+      setupLogoutButton();
+      setCurrentDate();
+      setupMenuToggle();
+      setupCustomerDialog();
+      setupTicketDialog();
+      setupDigitTypeForm();
+      setupAddTicketForm();
+      initHomePage();
+    });
+  </script>
 </html>
