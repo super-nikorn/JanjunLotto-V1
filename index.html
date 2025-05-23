@@ -42,25 +42,6 @@
             </p>
         </form>
     </div>
-    <script>
-        document
-            .getElementById("loginForm")
-            .addEventListener("submit", function (e) {
-                e.preventDefault();
-
-                const username = document.getElementById("username").value.trim();
-                const password = document.getElementById("password").value.trim();
-                const error = document.getElementById("error");
-
-                if (username === "admin" && password === "admin") {
-                    window.location.href = "home.html";
-                } else {
-                    error.classList.remove("hidden");
-                    document.getElementById("username").value = "";
-                    document.getElementById("password").value = "";
-                }
-            });
-    </script>
 </body>
-
+<script src="./assets/js/login.js"></script>
 </html>
