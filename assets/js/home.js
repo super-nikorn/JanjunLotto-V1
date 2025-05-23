@@ -17,6 +17,9 @@ const dataArray = [];
 
 querySnapshot.forEach((doc) => {
   const data = doc.data();
+  const displayId = doc.id.split("ticket")[1];
+
+  data.displayId = displayId;
   dataArray.push(data);
 
   // รวมยอดเงินทั้งหมด
@@ -38,9 +41,11 @@ dataArray.forEach((data, index) => {
   } border-b border-gray-200 hover:bg-indigo-50 transition`;
 
   tr.innerHTML = `
+    <td class="py-2 px-4">${data.displayId}</td>
     <td class="py-2 px-4">${data.name}</td>
     <td class="py-2 px-4">${data.number}</td>
     <td class="py-2 px-4">${data.type}</td>
+    <td class="py-2 px-4">${data.date}</td>
     <td class="py-2 px-4 text-right text-indigo-700 font-semibold">${Number(
       data.amount
     ).toLocaleString("th-TH")}</td>

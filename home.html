@@ -81,7 +81,7 @@
     </nav>
 
     <div
-      class="w-full mx-auto mt-10 p-6 bg-white rounded-xl shadow-md text-center"
+      class="max-w-4xl mx-auto mt-4 p-6 bg-white rounded-xl shadow-md text-center"
     >
       <h2 class="text-2xl font-bold text-gray-800">ตรวจสลากกินแบ่งรัฐบาล</h2>
       <p class="text-lg text-red-600 mt-2">
@@ -121,7 +121,7 @@
       </div>
     </div>
 
-    <div class="w-full bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Total Amount -->
         <div class="bg-indigo-50 p-4 rounded-lg">
@@ -141,20 +141,25 @@
         </div>
       </div>
     </div>
-    <div class="w-full overflow-x-auto shadow-lg rounded-lg mt-2">
-      <table class="min-w-full text-left border-collapse bg-white">
+    <div class="max-w-4xl mx-auto overflow-x-auto shadow-lg rounded-lg mt-2">
+      <table class="w-full border-collapse bg-white mb-4">
         <thead class="bg-indigo-500 text-white uppercase text-sm">
           <tr>
+            <th class="py-2 px-4">เลขที่</th>
             <th class="py-2 px-4">ชื่อ</th>
             <th class="py-2 px-4">เลข</th>
             <th class="py-2 px-4">ประเภท</th>
+            <th class="py-2 px-4">วันที่</th>
             <th class="py-2 px-4">จำนวนเงิน</th>
           </tr>
         </thead>
-        <tbody id="dataList" class="text-gray-700 text-sm">
-          <script type="module" src="assets/js/home.js"></script>
+        <tbody id="dataList" class="text-gray-700 text-sm text-center">
         </tbody>
       </table>
+    </div>
+    <script type="module" src="assets/js/home.js"></script>
+    <div>
+        <p class="text-red-500 text-xs mt-2 text-center mb-2">ข้อมูลอัพเดทเมื่อมาอยู่ที่หน้าแรก</p>
     </div>
     <!-- ✅ DIALOG: เพิ่มโพยหวย -->
     <dialog id="addTicketDialog" class="rounded-md shadow-md p-4 w-80">
@@ -185,6 +190,7 @@
           >
             <option value="บน">บน</option>
             <option value="ล่าง">ล่าง</option>
+            <option value="บน-ล่าง">บน-ล่าง</option>
           </select>
         </div>
 
@@ -195,7 +201,7 @@
           class="w-full p-2 border rounded"
           required
         />
-
+        <p>วันที่ :</p>
         <div class="flex justify-end gap-2 pt-2">
           <button
             type="button"
@@ -228,6 +234,7 @@
           dialogAddTicket.close();
         });
       </script>
+      <script type="module" src="assets/js/add.js"></script>
     </dialog>
 
     <!-- ✅ DIALOG: เพิ่มสมาชิก -->
