@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>รายงาน</title>
+    <title>บิลถูก</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" />
     <style>
@@ -51,19 +51,18 @@
             <button class="openaddTicket block py-2 hover:text-gray-300">
                 เพิ่มโพยหวย
             </button>
-            <a href="lottocheck.html" class="text-yellow-500 block py-2 hover:text-gray-300">ตรวจบิลถูก</a>
+            <a href="lottocheck.html" class="text-yellow-500block py-2 hover:text-gray-300">ตรวจบิลถูก</a>
             <a href="report.html" class="block py-2 hover:text-gray-300">รายงาน</a>
             <button class="logoutBtn block py-2 hover:text-gray-300">
                 ออกจากระบบ
             </button>
         </div>
     </nav>
-    <h1 class="mt-4">นี่คือหน้ารายงาน รออัพเดท</h1>
+    <h1 class="mt-4">นี่คือหน้าตรวจบิล รออัพเดท...</h1>
 </body>
 <script type="module">
     import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
     import { setCurrentDate } from "./assets/js/date.js";
-    // import { setupTicketDialog } from "./assets/js/modal.js";
     import { setupDigitTypeForm, setupAddTicketForm } from "./assets/js/add.js";
     import { initHomePage } from "./assets/js/home.js";
     import { loadModal } from "./assets/js/loadModal.js";
@@ -73,6 +72,8 @@
         setupLogoutButton();
         setCurrentDate();
         setupMenuToggle();
+        // setupCustomerDialog();
+        // setupTicketDialog();
         initHomePage();
 
         loadModal().then(() => {

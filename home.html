@@ -35,9 +35,7 @@
             <button class="openaddTicket hover:text-gray-300">
               เพิ่มโพยหวย
             </button>
-            <button class="openaddCustomer hover:text-gray-300">
-              เพิ่มสมาชิก
-            </button>
+            <a href="lottocheck.html" class="text-yellow-500 hover:text-gray-300">ตรวจบิลถูก</a>
             <a href="report.html" class="hover:text-gray-300">รายงาน</a>
             <button class="logoutBtn hover:text-gray-300">ออกจากระบบ</button>
           </div>
@@ -67,9 +65,7 @@
         <button class="openaddTicket block py-2 hover:text-gray-300">
           เพิ่มโพยหวย
         </button>
-        <button class="openaddCustomer block py-2 hover:text-gray-300">
-          เพิ่มสมาชิก
-        </button>
+        <a href="lottocheck.html" class="text-yellow-500 block py-2 hover:text-gray-300">ตรวจบิลถูก</a>
         <a href="report.html" class="block py-2 hover:text-gray-300">รายงาน</a>
         <button class="logoutBtn block py-2 hover:text-gray-300">
           ออกจากระบบ
@@ -158,186 +154,31 @@
         ข้อมูลอัพเดทเมื่อมาอยู่ที่หน้าแรก
       </p>
     </div>
-    <!-- ✅ DIALOG: เพิ่มโพยหวย -->
-    <dialog id="addTicketDialog" class="rounded-md shadow-md p-4 w-80">
-      <form id="addTicketForm" method="dialog" class="space-y-3">
-        <h2 class="text-lg font-semibold">เพิ่มโพยหวย</h2>
-        <div class="mb-4">
-          <label class="block mb-1 font-medium">เลือกประเภทเลข</label>
-          <div class="flex gap-4">
-            <label
-              ><input type="radio" name="digitType" value="2" checked /> 2
-              ตัว</label
-            >
-            <label
-              ><input type="radio" name="digitType" value="3-front" checked /> 3
-              ตัวหน้า</label
-            >
-            <label
-              ><input type="radio" name="digitType" value="3-back" checked /> 3
-              ตัวท้าย</label
-            >
-          </div>
-        </div>
-
-        <div>
-          <p class="text-red-500 text-xs mt-2 text-left">
-            กรุณาเลือกอย่างน้อย 1 อย่าง
-          </p>
-        </div>
-        <div class="flex gap-2">
-          <input
-            type="text"
-            name="name"
-            placeholder="ชื่อผู้ซื้อ"
-            class="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <input
-          type="text"
-          name="number"
-          id="numberInput"
-          placeholder="เลขที่ซื้อ"
-          class="w-full p-2 border rounded mb-2"
-          maxlength="2"
-          pattern="\d{2}"
-          required
-          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-        />
-        <div>
-          <label class="block mb-1 font-medium">ประเภท</label>
-          <select
-            name="type"
-            id="typeSelect"
-            required
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            <option value="บน">บน</option>
-            <option value="ล่าง">ล่าง</option>
-            <option value="บน-ล่าง">บน-ล่าง</option>
-            <option value="3 ตัวหน้า">3 ตัวท้าย</option>
-            <option value="3 ตัวท้าย">3 ตัวท้าย</option>
-          </select>
-        </div>
-
-        <input
-          type="number"
-          name="amount"
-          placeholder="จำนวนเงิน"
-          class="w-full p-2 border rounded"
-          required
-        />
-        <p>วันที่ : <span id="currentDate"></span></p>
-        <div class="flex justify-end gap-2 pt-2">
-          <button
-            type="button"
-            id="cancelAddTicketBtn"
-            class="bg-gray-300 px-3 py-1 rounded"
-          >
-            ยกเลิก
-          </button>
-          <button
-            type="submit"
-            class="bg-indigo-600 text-white px-3 py-1 rounded"
-          >
-            บันทึก
-          </button>
-        </div>
-      </form>
-    </dialog>
-    <!-- ✅ DIALOG: เพิ่มสมาชิก -->
-    <dialog id="addCustomerDialog" class="rounded-md shadow-md p-4 w-80">
-      <form id="addCustomerForm" method="dialog" class="space-y-3">
-        <h2 class="text-lg font-semibold">เพิ่มสมาชิก</h2>
-
-        <input
-          type="text"
-          name="name"
-          placeholder="กรอกชื่อสมาชิก"
-          class="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="text"
-          name="tel"
-          placeholder="เบอร์โทร"
-          class="w-full p-2 border rounded"
-          required
-        />
-        <input
-          type="text"
-          name="text"
-          placeholder="ID LINE (ถ้ามี)"
-          class="w-full p-2 border rounded"
-          required
-        />
-        <input type="checkbox" />
-        <label>ส่งข้อมูลทางไลน์หรือไม่?</label>
-        <div>
-          <label class="block mb-1 font-medium">ระดับสมาชิก</label>
-          <select
-            name="type"
-            required
-            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            <!-- <option value="5">5%</option> -->
-            <option value="1">1%</option>
-            <option value="2">2%</option>
-            <option value="3">3%</option>
-            <option value="4">4%</option>
-            <option value="5">5%</option>
-            <option value="6">6%</option>
-            <option value="7">7%</option>
-            <option value="8">8%</option>
-            <option value="9">9%</option>
-            <option value="10">10%</option>
-            <option value="11">11%</option>
-            <option value="12">12%</option>
-            <option value="13">13%</option>
-            <option value="14">14%</option>
-            <option value="15">15%</option>
-          </select>
-          <p class="text-red-500 text-xs mt-2">ลดราคาตามเปอร์เซ็นที่เลือก</p>
-        </div>
-        <div class="flex justify-end gap-2 pt-2">
-          <button
-            type="button"
-            id="cancelAddCustomerBtn"
-            class="bg-gray-300 px-3 py-1 rounded"
-          >
-            ยกเลิก
-          </button>
-          <button
-            type="submit"
-            class="bg-indigo-600 text-white px-3 py-1 rounded"
-          >
-            บันทึก
-          </button>
-        </div>
-      </form>
-    </dialog>
   </body>
 
   <script type="module">
     import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
     import { setCurrentDate } from "./assets/js/date.js";
-    import {
-      setupCustomerDialog,
-      setupTicketDialog,
-    } from "./assets/js/modal.js";
+    // import { setupTicketDialog } from "./assets/js/modal.js";
     import { setupDigitTypeForm, setupAddTicketForm } from "./assets/js/add.js";
     import { initHomePage } from "./assets/js/home.js";
+    import { loadModal } from "./assets/js/loadModal.js";
+    import { setupTicketDialog } from "./assets/js/modal.js";
 
     document.addEventListener("DOMContentLoaded", () => {
       setupLogoutButton();
       setCurrentDate();
       setupMenuToggle();
-      setupCustomerDialog();
-      setupTicketDialog();
-      setupDigitTypeForm();
-      setupAddTicketForm();
+      // setupCustomerDialog();
+      // setupTicketDialog();
       initHomePage();
+      
+      loadModal().then(() => {
+        setupTicketDialog();
+        setupDigitTypeForm();
+        setupAddTicketForm();
+      })
+      
     });
   </script>
 </html>
