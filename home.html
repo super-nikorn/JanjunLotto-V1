@@ -1,184 +1,164 @@
 <!DOCTYPE html>
 <html lang="th">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>เจ้ามือหวย - หน้าแรก</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: "Noto sans Thai", sans-serif;
-        background-color: #f9fafb;
-      }
-    </style>
-  </head>
 
-  <body>
-    <nav class="bg-indigo-600 text-white shadow-md">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
-          <div class="flex-shrink-0">
-            <a href="home.html">
-              <img src="assets/image/janjun.png" alt="Logo" />
-            </a>
-          </div>
-          <!-- เมนูด้านขวา -->
-          <div class="hidden md:flex item-center space-x-6">
-            <a href="home.html" class="hover:text-gray-300">หน้าหลัก</a>
-            <button class="openaddTicket hover:text-gray-300">
-              เพิ่มโพยหวย
-            </button>
-            <a href="lottocheck.html" class="text-yellow-500 hover:text-gray-300">ตรวจบิลถูก</a>
-            <a href="report.html" class="hover:text-gray-300">รายงาน</a>
-            <button class="logoutBtn hover:text-gray-300">ออกจากระบบ</button>
-          </div>
-          <!-- เมนูมือถือ -->
-          <div class="md:hidden">
-            <button id="menuBtn" class="focus:outline-none">
-              <svg
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>เจ้ามือหวย - หน้าแรก</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: "Noto sans Thai", sans-serif;
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="bg-indigo-600 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <div class="flex-shrink-0">
+          <a href="home.html">
+            <img src="assets/image/janjun.png" alt="Logo" />
+          </a>
         </div>
-      </div>
-      <!-- เมนูมือถือ (Dropdown) -->
-      <div id="mobileMenu" class="md:hidden px-4 pb-4 hidden">
-        <a href="home.html" class="block py-2 hover:text-gray-300">หน้าหลัก</a>
-        <button class="openaddTicket block py-2 hover:text-gray-300">
-          เพิ่มโพยหวย
-        </button>
-        <a href="lottocheck.html" class="text-yellow-500 block py-2 hover:text-gray-300">ตรวจบิลถูก</a>
-        <a href="report.html" class="block py-2 hover:text-gray-300">รายงาน</a>
-        <button class="logoutBtn block py-2 hover:text-gray-300">
-          ออกจากระบบ
-        </button>
-      </div>
-    </nav>
-
-    <div
-      class="max-w-4xl mx-auto mt-4 p-6 bg-white rounded-xl shadow-md text-center"
-    >
-      <h2 class="text-2xl font-bold text-gray-800">ผลสลากกินแบ่งรัฐบาล</h2>
-      <p class="text-lg text-red-600 mt-2">
-        ประจำวันที่ <span id="lotto-round">--</span>
-      </p>
-
-      <div
-        class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-center text-gray-700"
-      >
-        <!-- รางวัลที่ 1 -->
-        <div class="col-span-1 md:col-span-1">
-          <p class="text-3xl text-red-600 font-bold" id="first-prize">--</p>
-          <p class="text-sm text-gray-500">รางวัลที่ 1</p>
-          <p class="text-xs text-gray-400">รางวัลละ 6,000,000 บาท</p>
+        <!-- เมนูด้านขวา -->
+        <div class="hidden md:flex item-center space-x-6">
+          <a href="home.html" class="hover:text-gray-300">หน้าหลัก</a>
+          <button class="openaddTicket hover:text-gray-300">
+            เพิ่มโพยหวย
+          </button>
+          <a href="lottocheck.html" class="text-yellow-500 hover:text-gray-300">ตรวจบิลถูก</a>
+          <a href="report.html" class="hover:text-gray-300">รายงาน</a>
+          <button class="logoutBtn hover:text-gray-300">ออกจากระบบ</button>
         </div>
-
-        <!-- เลขหน้า 3 ตัว -->
-        <div>
-          <p class="text-2xl font-semibold" id="three-front">--</p>
-          <p class="text-sm text-gray-500">เลขหน้า 3 ตัว</p>
-          <p class="text-xs text-gray-400">2 รางวัลๆละ 4,000 บาท</p>
-        </div>
-
-        <!-- เลขท้าย 3 ตัว -->
-        <div>
-          <p class="text-2xl font-semibold" id="three-back">--</p>
-          <p class="text-sm text-gray-500">เลขท้าย 3 ตัว</p>
-          <p class="text-xs text-gray-400">2 รางวัลๆละ 4,000 บาท</p>
-        </div>
-
-        <!-- เลขท้าย 2 ตัว -->
-        <div>
-          <p class="text-2xl font-semibold" id="two-digit">--</p>
-          <p class="text-sm text-gray-500">เลขท้าย 2 ตัว</p>
-          <p class="text-xs text-gray-400">1 รางวัลๆละ 2,000 บาท</p>
+        <!-- เมนูมือถือ -->
+        <div class="md:hidden">
+          <button id="menuBtn" class="focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
+    <!-- เมนูมือถือ (Dropdown) -->
+    <div id="mobileMenu" class="md:hidden px-4 pb-4 hidden">
+      <a href="home.html" class="block py-2 hover:text-gray-300">หน้าหลัก</a>
+      <button class="openaddTicket block py-2 hover:text-gray-300">
+        เพิ่มโพยหวย
+      </button>
+      <a href="lottocheck.html" class="text-yellow-500 block py-2 hover:text-gray-300">ตรวจบิลถูก</a>
+      <a href="report.html" class="block py-2 hover:text-gray-300">รายงาน</a>
+      <button class="logoutBtn block py-2 hover:text-gray-300">
+        ออกจากระบบ
+      </button>
+    </div>
+  </nav>
 
-    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Total Amount -->
-        <div class="bg-indigo-50 p-4 rounded-lg">
-          <p class="text-gray-600 text-sm">ยอดรวมทั้งหมด</p>
-          <p class="text-2xl font-bold text-indigo-700">
-            <span id="totalAmount">0</span>
-            <span class="text-base font-medium text-gray-700">บาท</span>
-          </p>
-        </div>
-        <!-- Top Number -->
-        <div class="bg-indigo-50 p-4 rounded-lg">
-          <p class="text-gray-600 text-sm">เลขที่ถูกซื้อเยอะที่สุด</p>
-          <p class="text-2xl font-bold text-indigo-700">
-            <span id="topNumber">0</span>
-            <span class="text-base font-medium text-gray-700">บาท</span>
-          </p>
-        </div>
+  <div class="max-w-4xl mx-auto mt-4 p-6 bg-white rounded-xl shadow-md text-center">
+    <h2 class="text-2xl font-bold text-gray-800">ผลสลากกินแบ่งรัฐบาล</h2>
+    <p class="text-lg text-red-600 mt-2">
+      ประจำวันที่ <span id="lotto-round">--</span>
+    </p>
+
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 text-center text-gray-700">
+      <!-- รางวัลที่ 1 -->
+      <div class="col-span-1 md:col-span-1">
+        <p class="text-3xl text-red-600 font-bold" id="first-prize">--</p>
+        <p class="text-sm text-gray-500">รางวัลที่ 1</p>
+        <p class="text-xs text-gray-400">รางวัลละ 6,000,000 บาท</p>
+      </div>
+
+      <!-- เลขหน้า 3 ตัว -->
+      <div>
+        <p class="text-2xl font-semibold" id="three-front">--</p>
+        <p class="text-sm text-gray-500">เลขหน้า 3 ตัว</p>
+        <p class="text-xs text-gray-400">2 รางวัลๆละ 4,000 บาท</p>
+      </div>
+
+      <!-- เลขท้าย 3 ตัว -->
+      <div>
+        <p class="text-2xl font-semibold" id="three-back">--</p>
+        <p class="text-sm text-gray-500">เลขท้าย 3 ตัว</p>
+        <p class="text-xs text-gray-400">2 รางวัลๆละ 4,000 บาท</p>
+      </div>
+
+      <!-- เลขท้าย 2 ตัว -->
+      <div>
+        <p class="text-2xl font-semibold" id="two-digit">--</p>
+        <p class="text-sm text-gray-500">เลขท้าย 2 ตัว</p>
+        <p class="text-xs text-gray-400">1 รางวัลๆละ 2,000 บาท</p>
       </div>
     </div>
-    <div class="max-w-4xl mx-auto overflow-x-auto shadow-lg rounded-lg mt-2">
-      <table class="w-full border-collapse bg-white mb-4">
-        <thead class="bg-indigo-500 text-white uppercase text-sm">
-          <tr>
-            <!-- <th class="py-2 px-4">เลขที่</th> -->
-            <th class="py-2 px-4">ชื่อผู้ซื้อ</th>
-            <th class="py-2 px-4">เลขที่ซื้อ</th>
-            <th class="py-2 px-4">ประเภท</th>
-            <!-- <th class="py-2 px-4">วันที่</th> -->
-            <th class="py-2 px-4">จำนวนเงิน</th>
-          </tr>
-        </thead>
-        <tbody id="dataList" class="text-gray-700 text-sm text-center"></tbody>
-      </table>
-    </div>
-    <div>
-      <p class="text-red-500 text-xs mt-2 text-center mb-2">
-        ข้อมูลอัพเดทเมื่อมาอยู่ที่หน้าแรก
-      </p>
-    </div>
-  </body>
+  </div>
 
-  <script type="module">
-    import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
-    import { setCurrentDate } from "./assets/js/date.js";
-    // import { setupTicketDialog } from "./assets/js/modal.js";
-    import { setupDigitTypeForm, setupAddTicketForm } from "./assets/js/add.js";
-    import { initHomePage } from "./assets/js/home.js";
-    import { loadModal } from "./assets/js/loadModal.js";
-    import { setupTicketDialog } from "./assets/js/modal.js";
+  <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Total Amount -->
+      <div class="bg-indigo-50 p-4 rounded-lg">
+        <p class="text-gray-600 text-sm">ยอดรวมทั้งหมด</p>
+        <p class="text-2xl font-bold text-indigo-700">
+          <span id="totalAmount">0</span>
+          <span class="text-base font-medium text-gray-700">บาท</span>
+        </p>
+      </div>
+      <!-- Top Number -->
+      <div class="bg-indigo-50 p-4 rounded-lg">
+        <p class="text-gray-600 text-sm">เลขที่ถูกซื้อเยอะที่สุด</p>
+        <p class="text-2xl font-bold text-indigo-700">
+          <span id="topNumber">0</span>
+          <span class="text-base font-medium text-gray-700">บาท</span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-4xl mx-auto overflow-x-auto shadow-lg rounded-lg mt-2">
+    <table class="w-full border-collapse bg-white mb-4">
+      <thead class="bg-indigo-500 text-white uppercase text-sm">
+        <tr>
+          <!-- <th class="py-2 px-4">เลขที่</th> -->
+          <th class="py-2 px-4">ชื่อผู้ซื้อ</th>
+          <th class="py-2 px-4">เลขที่ซื้อ</th>
+          <th class="py-2 px-4">ประเภท</th>
+          <!-- <th class="py-2 px-4">วันที่</th> -->
+          <th class="py-2 px-4">จำนวนเงิน</th>
+        </tr>
+      </thead>
+      <tbody id="dataList" class="text-gray-700 text-sm text-center"></tbody>
+    </table>
+  </div>
+  <div>
+    <p class="text-red-500 text-xs mt-2 text-center mb-2">
+      ข้อมูลอัพเดทเมื่อมาอยู่ที่หน้าแรก
+    </p>
+  </div>
+</body>
 
-    document.addEventListener("DOMContentLoaded", () => {
-      setupLogoutButton();
-      setCurrentDate();
-      setupMenuToggle();
-      // setupCustomerDialog();
-      // setupTicketDialog();
-      initHomePage();
-      
-      loadModal().then(() => {
-        setupTicketDialog();
-        setupDigitTypeForm();
-        setupAddTicketForm();
-      })
-      
-    });
-  </script>
+<script type="module">
+  import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
+  import { setCurrentDate } from "./assets/js/date.js";
+  // import { setupTicketDialog } from "./assets/js/modal.js";
+  import { setupDigitTypeForm, setupAddTicketForm } from "./assets/js/add.js";
+  import { initHomePage } from "./assets/js/home.js";
+  import { loadModal } from "./assets/js/loadModal.js";
+  import { setupTicketDialog } from "./assets/js/modal.js";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    setupLogoutButton();
+    setCurrentDate();
+    setupMenuToggle();
+    initHomePage();
+
+    loadModal().then(() => {
+      setupTicketDialog();
+      setupDigitTypeForm();
+      setupAddTicketForm();
+    })
+
+  });
+</script>
+
 </html>
