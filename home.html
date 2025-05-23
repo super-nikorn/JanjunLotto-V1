@@ -125,7 +125,7 @@
           <th class="py-2 px-4">ชื่อผู้ซื้อ</th>
           <th class="py-2 px-4">เลขที่ซื้อ</th>
           <th class="py-2 px-4">ประเภท</th>
-          <th class="py-2 px-4">วันที่</th>
+          <!-- <th class="py-2 px-4">วันที่</th> -->
           <th class="py-2 px-4">จำนวนเงิน</th>
         </tr>
       </thead>
@@ -159,7 +159,6 @@
           กรุณาเลือกอย่างน้อย 1 อย่าง
         </p>
       </div>
-
       <input type="text" name="name" placeholder="ชื่อผู้ซื้อ" class="w-full p-2 border rounded" required />
       <input type="text" name="number" id="numberInput" placeholder="เลขที่ซื้อ" class="w-full p-2 border rounded mb-2"
         maxlength="2" pattern="\d{2}" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
@@ -237,6 +236,7 @@
   import { setCurrentDate } from "./assets/js/date.js";
   import { setupCustomerDialog, setupTicketDialog } from "./assets/js/modal.js"
   import { setupDigitTypeForm, setupAddTicketForm } from "/assets/js/add.js";
+  import { initHomePage } from "/assets/js/home.js";
 
   document.addEventListener("DOMContentLoaded", () => {
     setupLogoutButton();
@@ -246,6 +246,8 @@
     setupTicketDialog();
     setupDigitTypeForm();
     setupAddTicketForm();
+    initHomePage();
   });
 </script>
+
 </html>
