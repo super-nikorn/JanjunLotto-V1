@@ -9,35 +9,39 @@ export async function initHomePage() {
   const dataList = document.getElementById("dataList");
   const totalAmount = document.getElementById("totalAmount");
   const topNumber = document.getElementById("topNumber");
+  const topPerTypeEl = document.getElementById("topPerType");
 
   let total = 0;
   let numberStats = {};
+  let statsByType = {};
+  const dataArray = [];
 
   // 1. ดึงข้อมูลทั้งหมดจาก Firestore
   const querySnapshot = await getDocs(collection(db, "lottery"));
-  const dataArray = [];
-
   querySnapshot.forEach((doc) => {
     const data = doc.data();
-    const displayId = doc.id.split("ticket")[1];
-    data.displayId = displayId;
     dataArray.push(data);
-
     total += Number(data.amount);
 
+    // รวมตามหมายเลข
     if (!numberStats[data.number]) numberStats[data.number] = 0;
     numberStats[data.number] += Number(data.amount);
+
+    // รวมตามประเภทและหมายเลข
+    if (!statsByType[data.type]) statsByType[data.type] = {};
+    if (!statsByType[data.type][data.number])
+      statsByType[data.type][data.number] = 0;
+    statsByType[data.type][data.number] += Number(data.amount);
   });
 
   // 2. เรียงข้อมูลจากมากไปน้อย
   dataArray.sort((a, b) => b.amount - a.amount);
 
-  // 3. สร้าง <tr> ในตาราง
+  // 3. แสดงรายการโพยในตาราง
   dataArray.forEach((data, index) => {
     const tr = document.createElement("tr");
     tr.className = `${index % 2 === 0 ? "bg-white" : "bg-gray-50"
       } border-b border-gray-200 hover:bg-indigo-50 transition`;
-
     tr.innerHTML = `
       <td class="py-2 px-4">${data.name}</td>
       <td class="py-2 px-4">${data.number}</td>
@@ -49,27 +53,56 @@ export async function initHomePage() {
     dataList.appendChild(tr);
   });
 
-  // แสดงยอดรวม
+  // 4. แสดงยอดรวมทั้งหมด
   totalAmount.textContent = total.toLocaleString("th-TH", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 
-  // หาค่าเลขที่มียอดรวมเยอะสุด
-  let maxNum = "-";
-  let maxAmt = 0;
-  for (let num in numberStats) {
-    if (numberStats[num] > maxAmt) {
-      maxAmt = numberStats[num];
-      maxNum = num;
-    }
-  }
-  topNumber.textContent = `${maxNum} (${maxAmt.toLocaleString("th-TH", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })})`;
+  // // 5. แสดงเลขที่ขายดีที่สุด
+  // let maxNum = "-";
+  // let maxAmt = 0;
+  // for (let num in numberStats) {
+  //   if (numberStats[num] > maxAmt) {
+  //     maxAmt = numberStats[num];
+  //     maxNum = num;
+  //   }
+  // }
+  // topNumber.textContent = `${maxNum} (${maxAmt.toLocaleString("th-TH", {
+  //   minimumFractionDigits: 2,
+  //   maximumFractionDigits: 2,
+  // })})`;
 
-  // ดึงข้อมูลหวยล่าสุดจาก API แล้วแสดงผล
+  // 6. แสดง Top 3 ของแต่ละประเภท
+  topPerTypeEl.innerHTML = "";
+  for (let type in statsByType) {
+    const numberAmountMap = statsByType[type];
+    const sortedTop = Object.entries(numberAmountMap)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3);
+
+    const section = document.createElement("div");
+    section.classList.add("bg-white", "p-4", "rounded-lg", "shadow");
+
+    const title = document.createElement("h3");
+    title.className = "text-indigo-600 font-bold text-xs mb-2";
+    title.textContent = `Top ${type}`;
+
+    const ul = document.createElement("ul");
+    ul.className = "text-gray-700 text-xs space-y-1";
+
+    sortedTop.forEach(([num, amt], idx) => {
+      const li = document.createElement("li");
+      li.innerHTML = `${idx + 1}. <span class="font-semibold">${num}</span> - <span class="text-indigo-700 font-bold">${amt.toLocaleString("th-TH")} บาท</span>`;
+      ul.appendChild(li);
+    });
+
+    section.appendChild(title);
+    section.appendChild(ul);
+    topPerTypeEl.appendChild(section);
+  }
+
+  // 7. ดึงข้อมูลหวยจาก API ภายนอก
   try {
     const response = await fetch("https://lotto.api.rayriffy.com/latest");
     const data = await response.json();
@@ -77,27 +110,17 @@ export async function initHomePage() {
 
     document.getElementById("lotto-round").textContent = result.date;
 
-    const firstPrize = result.prizes.find((p) => p.id === "prizeFirst");
     document.getElementById("first-prize").textContent =
-      firstPrize?.number[0] || "--";
+      result.prizes.find((p) => p.id === "prizeFirst")?.number[0] || "--";
 
-    const frontThree = result.runningNumbers.find(
-      (p) => p.id === "runningNumberFrontThree"
-    );
     document.getElementById("three-front").textContent =
-      frontThree?.number.join(" ") || "--";
+      result.runningNumbers.find((p) => p.id === "runningNumberFrontThree")?.number.join(" ") || "--";
 
-    const backThree = result.runningNumbers.find(
-      (p) => p.id === "runningNumberBackThree"
-    );
     document.getElementById("three-back").textContent =
-      backThree?.number.join(" ") || "--";
+      result.runningNumbers.find((p) => p.id === "runningNumberBackThree")?.number.join(" ") || "--";
 
-    const twoDigit = result.runningNumbers.find(
-      (p) => p.id === "runningNumberBackTwo"
-    );
     document.getElementById("two-digit").textContent =
-      twoDigit?.number[0] || "--";
+      result.runningNumbers.find((p) => p.id === "runningNumberBackTwo")?.number[0] || "--";
   } catch (error) {
     console.error("Fetch lotto API error:", error);
   }

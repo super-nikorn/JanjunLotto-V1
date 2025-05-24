@@ -100,24 +100,25 @@
   </div>
 
   <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <!-- Total Amount -->
-      <div class="bg-indigo-50 p-4 rounded-lg">
-        <p class="text-gray-600 text-sm">ยอดรวมทั้งหมด</p>
-        <p class="text-2xl font-bold text-indigo-700">
-          <span id="totalAmount">0</span>
-          <span class="text-base font-medium text-gray-700">บาท</span>
-        </p>
+    <!-- <div class="grid grid-cols-3 gap-4"> -->
+      <div id="topPerType" class="grid grid-cols-2 md:grid-cols-2 gap-4 mt-2">
       </div>
+      
       <!-- Top Number -->
-      <div class="bg-indigo-50 p-4 rounded-lg">
-        <p class="text-gray-600 text-sm">เลขที่ถูกซื้อเยอะที่สุด</p>
-        <p class="text-2xl font-bold text-indigo-700">
-          <span id="topNumber">0</span>
-          <span class="text-base font-medium text-gray-700">บาท</span>
-        </p>
+      <!-- <div class="bg-indigo-50 p-4 rounded-lg"> -->
+        <!-- <p class="text-gray-600 text-xs">Top 2 ตัว</p> -->
+        <!-- <p class="text-2xl font-bold text-indigo-700"> -->
+          <!-- <span class="text-sm" id="topNumber"></span> -->
+          
+        <!-- </p> -->
+        <!-- Total Amount -->
+        <!-- <div class="bg-indigo-50 p-4 rounded-lg">
+          <p class="text-gray-600 text-xs">รวมยอด/เดือน</p>
+          <p class="text-2xl font-bold text-indigo-700">
+          </div> -->
+        <!-- </p> -->
       </div>
-    </div>
+      <span class="text-sm" id="totalAmount">0</span>
   </div>
   <div class="max-w-4xl mx-auto overflow-x-auto shadow-lg rounded-lg mt-2">
     <table class="w-full border-collapse bg-white mb-4">
