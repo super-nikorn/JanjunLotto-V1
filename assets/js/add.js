@@ -87,6 +87,8 @@ export function setupDigitTypeForm() {
     2: ["บน", "ล่าง", "บน-ล่าง"],
     "3-front": ["3 ตัวหน้า"],
     "3-back": ["3 ตัวท้าย"],
+    "3-straight": ["3 ตัวตรง"],
+    "3-tod": ["3 ตัวโต๊ด"],
   };
 
   function setDigitType(type) {
@@ -99,7 +101,7 @@ export function setupDigitTypeForm() {
       numberInput.maxLength = 3;
       numberInput.pattern = "\\d{3}";
       numberInput.placeholder =
-        type === "3-front" ? "เลข 3 ตัวหน้า" : "เลข 3 ตัวท้าย";
+        type === "3-front" ? "เลข 3 ตัวหน้า" : "เลข 3 ตัวท้าย" ? "เลข 3 ตัวตรง" : "เลข 3 ตัวโต๊ด";
       typeSelect.disabled = true;
     }
 
@@ -123,4 +125,23 @@ export function setupDigitTypeForm() {
   document
     .querySelector('input[name="digitType"]:checked')
     ?.dispatchEvent(new Event("change"));
+}
+
+
+export function setupDigitTypeHighlight() {
+  const group = document.getElementById("digitTypeGroup");
+  const labels = group.querySelectorAll("label");
+
+  labels.forEach((label) => {
+    const input = label.querySelector("input");
+    input.addEventListener("change", () => {
+      labels.forEach((lbl) => lbl.classList.remove("bg-indigo-100", "border-indigo-500"));
+      label.classList.add("bg-indigo-100", "border-indigo-500");
+    });
+
+    // เช็คว่า checked อยู่แล้วตอนโหลด
+    if (input.checked) {
+      label.classList.add("bg-indigo-100", "border-indigo-500");
+    }
+  });
 }
