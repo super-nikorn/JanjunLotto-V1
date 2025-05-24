@@ -45,6 +45,8 @@ export async function saveTicket({ name, number, type, amount }) {
 export function setupAddTicketForm() {
   const form = document.getElementById("addTicketForm");
   const dialogaddTk = document.getElementById("addTicketDialog");
+  const reverseCheckbox = document.getElementById("reverseNumber"); // 👈 เพิ่มบรรทัดนี้
+
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -89,6 +91,7 @@ export function setupDigitTypeForm() {
   const numberInput = document.getElementById("numberInput");
   const typeSelect = document.getElementById("typeSelect");
   const reverseCheckbox = document.getElementById("reverseNumber")
+
 
   const typeOptions = {
     2: ["บน", "ล่าง", "บน-ล่าง"],
