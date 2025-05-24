@@ -100,39 +100,32 @@
   </div>
 
   <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
-    <!-- <div class="grid grid-cols-3 gap-4"> -->
+    <h3 class="text-red-500 font-bold">3 อันดับของหวยแต่ละประเภท</h3>
     <div id="topPerType" class="grid grid-cols-3 md:grid-cols-2 gap-2 mt-2">
     </div>
+    <div class="stats-card bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden mt-4">
+      <div class="header border-b border-gray-100 p-4">
+        <h3 class="text-gray-600 text-sm font-medium">สรุปยอดประจำเดือน</h3>
+      </div>
 
-    <!-- Top Number -->
-    <!-- <div class="bg-indigo-50 p-4 rounded-lg"> -->
-    <!-- <p class="text-gray-600 text-xs">Top 2 ตัว</p> -->
-    <!-- <p class="text-2xl font-bold text-indigo-700"> -->
-    <!-- <span class="text-sm" id="topNumber"></span> -->
+      <div class="content p-5 flex items-center justify-between">
+        <div class="main-stat">
+          <p class="text-gray-500 text-sm">ยอดรวมทั้งหมด</p>
+          <div class="flex items-baseline mt-1">
+            <span class="text-3xl font-bold text-indigo-600" id="totalAmount">0</span>
+            <span class="text-gray-500 ml-2">บาท</span>
+          </div>
+        </div>
 
-    <!-- </p> -->
-    <!-- Total Amount -->
-    <!-- <div class="bg-indigo-50 p-4 rounded-lg">
-          <p class="text-gray-600 text-xs">รวมยอด/เดือน</p>
-          <p class="text-2xl font-bold text-indigo-700">
-          </div> -->
-    <!-- </p> -->
-    <div class="bg-white-50 rounded-lg mt-2 shadow-md">
-      <div class="flex p-4 bg-indigo-100 rounded-lg">
-        <p class="text-gray-600 text-xs mt-2 font-bold">ยอดรวม/เดือน</p>
-        <p class="text-2xl font-bold text-indigo-700 ml-2">
-          <span id="totalAmount">0</span>
-        </p>
-        <p class="text-gray-600 text-xs mt-2 ml-2">
-          <span>฿</span>
-        </p>
-        <p class="text-yellow-500 text-xs mt-2 ml-6 underline font-bold">บิลถูก</p>
-        <p class="text-2xl font-bold text-indigo-700 ml-4">
-          <span>0</span>
-        </p>
-        <p class="text-gray-600 text-xs mt-2 ml-4">
-          <span>บิล</span>
-        </p>
+        <div class="separator h-12 w-px bg-gray-200 mx-4"></div>
+
+        <div class="secondary-stat">
+          <p class="text-gray-500 text-sm">บิลถูก</p>
+          <div class="flex items-baseline mt-1">
+            <span class="text-2xl font-bold text-green-500">0</span>
+            <span class="text-gray-500 ml-2">บิล</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
