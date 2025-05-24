@@ -53,6 +53,7 @@ export function setupAddTicketForm() {
     const number = form.number.value.trim();
     const type = form.type.value;
     const amount = Number(form.amount.value);
+    const shouldReverse = reverseCheckbox?.checked;
 
     if (!name || !number || !type || !amount) {
       alert("กรุณากรอกข้อมูลให้ครบถ้วน");
@@ -62,6 +63,11 @@ export function setupAddTicketForm() {
     try {
       form.querySelector('button[type="submit"]').disabled = true;
       await saveTicket({ name, number, type, amount });
+
+      if (shouldReverse && number.length === 2 && number[0] !==number[1]) {
+        const reversed = number.split("").reverse().join("");
+        await saveTicket({name, number: reversed, type, amount});
+      }
 
       alert("บันทึกโพยเรียบร้อย!");
       form.reset();
@@ -82,6 +88,7 @@ export function setupDigitTypeForm() {
   const digitRadios = document.querySelectorAll('input[name="digitType"]');
   const numberInput = document.getElementById("numberInput");
   const typeSelect = document.getElementById("typeSelect");
+  const reverseCheckbox = document.getElementById("reverseNumber")
 
   const typeOptions = {
     2: ["บน", "ล่าง", "บน-ล่าง"],
@@ -97,12 +104,15 @@ export function setupDigitTypeForm() {
       numberInput.pattern = "\\d{2}";
       numberInput.placeholder = "เลข 2 ตัว";
       typeSelect.disabled = false;
+      reverseCheckbox.disabled = false;
     } else {
       numberInput.maxLength = 3;
       numberInput.pattern = "\\d{3}";
       numberInput.placeholder =
         type === "3-front" ? "เลข 3 ตัวหน้า" : "เลข 3 ตัวท้าย" ? "เลข 3 ตัวตรง" : "เลข 3 ตัวโต๊ด";
       typeSelect.disabled = true;
+      reverseCheckbox.disabled = true;
+      reverseCheckbox.checked = false;
     }
 
     numberInput.value = "";
@@ -144,4 +154,8 @@ export function setupDigitTypeHighlight() {
       label.classList.add("bg-indigo-100", "border-indigo-500");
     }
   });
+}
+
+export function toogglenumberOperation(){
+
 }

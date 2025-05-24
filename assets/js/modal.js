@@ -5,7 +5,6 @@ export function setupTicketDialog() {
   const openAddTicketBtns = document.querySelectorAll(".openaddTicket");
   const addTicketForm = document.getElementById("addTicketForm");
   const currentDateSpan = document.getElementById("currentDate");
-  const validationMessage = document.getElementById("validationMessage");
 
   if (!(dialogAddTicket && cancelAddTicketBtn && addTicketForm && currentDateSpan)) return;
 
@@ -23,7 +22,6 @@ export function setupTicketDialog() {
   // เปิด dialog เมื่อกดปุ่ม
   openAddTicketBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      validationMessage.classList.add("hidden");
       addTicketForm.reset();
       setCurrentDate();
       dialogAddTicket.showModal();
@@ -37,16 +35,6 @@ export function setupTicketDialog() {
   addTicketForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // ตัวอย่าง validate อย่างง่ายเช็ค radio อย่างน้อยเลือก 1 (แต่ตอนนี้มัน checked อยู่แล้ว)
-    const selectedDigitType = addTicketForm.digitType.value;
-    if (!selectedDigitType) {
-      validationMessage.classList.remove("hidden");
-      return;
-    } else {
-      validationMessage.classList.add("hidden");
-    }
-
-    // ทำอะไรต่อ เช่น ส่งข้อมูล หรือ console.log ข้อมูลที่กรอก
     const formData = new FormData(addTicketForm);
     const data = Object.fromEntries(formData.entries());
 
@@ -54,11 +42,5 @@ export function setupTicketDialog() {
 
     // ปิด dialog หลังบันทึก
     dialogAddTicket.close();
-  });
-
-  // เคลียร์ form และซ่อนข้อความ validation เมื่อ dialog ปิด
-  dialogAddTicket.addEventListener("close", () => {
-    addTicketForm.reset();
-    validationMessage.classList.add("hidden");
   });
 }
