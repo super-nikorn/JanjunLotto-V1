@@ -101,24 +101,40 @@
 
   <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
     <!-- <div class="grid grid-cols-3 gap-4"> -->
-      <div id="topPerType" class="grid grid-cols-2 md:grid-cols-2 gap-4 mt-2">
-      </div>
-      
-      <!-- Top Number -->
-      <!-- <div class="bg-indigo-50 p-4 rounded-lg"> -->
-        <!-- <p class="text-gray-600 text-xs">Top 2 ตัว</p> -->
-        <!-- <p class="text-2xl font-bold text-indigo-700"> -->
-          <!-- <span class="text-sm" id="topNumber"></span> -->
-          
-        <!-- </p> -->
-        <!-- Total Amount -->
-        <!-- <div class="bg-indigo-50 p-4 rounded-lg">
+    <div id="topPerType" class="grid grid-cols-3 md:grid-cols-2 gap-2 mt-2">
+    </div>
+
+    <!-- Top Number -->
+    <!-- <div class="bg-indigo-50 p-4 rounded-lg"> -->
+    <!-- <p class="text-gray-600 text-xs">Top 2 ตัว</p> -->
+    <!-- <p class="text-2xl font-bold text-indigo-700"> -->
+    <!-- <span class="text-sm" id="topNumber"></span> -->
+
+    <!-- </p> -->
+    <!-- Total Amount -->
+    <!-- <div class="bg-indigo-50 p-4 rounded-lg">
           <p class="text-gray-600 text-xs">รวมยอด/เดือน</p>
           <p class="text-2xl font-bold text-indigo-700">
           </div> -->
-        <!-- </p> -->
+    <!-- </p> -->
+    <div class="bg-white-50 rounded-lg mt-2 shadow-md">
+      <div class="flex p-4 bg-indigo-100 rounded-lg">
+        <p class="text-gray-600 text-xs mt-2 font-bold">ยอดรวม/เดือน</p>
+        <p class="text-2xl font-bold text-indigo-700 ml-2">
+          <span id="totalAmount">0</span>
+        </p>
+        <p class="text-gray-600 text-xs mt-2 ml-2">
+          <span>฿</span>
+        </p>
+        <p class="text-yellow-500 text-xs mt-2 ml-6 underline font-bold">บิลถูก</p>
+        <p class="text-2xl font-bold text-indigo-700 ml-4">
+          <span>0</span>
+        </p>
+        <p class="text-gray-600 text-xs mt-2 ml-4">
+          <span>บิล</span>
+        </p>
       </div>
-      <span class="text-sm" id="totalAmount">0</span>
+    </div>
   </div>
   <div class="max-w-4xl mx-auto overflow-x-auto shadow-lg rounded-lg mt-2">
     <table class="w-full border-collapse bg-white mb-4">

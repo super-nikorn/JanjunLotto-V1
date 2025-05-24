@@ -82,10 +82,10 @@ export async function initHomePage() {
       .slice(0, 3);
 
     const section = document.createElement("div");
-    section.classList.add("bg-white", "p-4", "rounded-lg", "shadow");
+    section.classList.add("bg-white", "p-2", "rounded-lg", "shadow-md");
 
     const title = document.createElement("h3");
-    title.className = "text-indigo-600 font-bold text-xs mb-2";
+    title.className = "text-indigo-600 font-bold text-xs mb-2 underline";
     title.textContent = `Top ${type}`;
 
     const ul = document.createElement("ul");
@@ -93,7 +93,7 @@ export async function initHomePage() {
 
     sortedTop.forEach(([num, amt], idx) => {
       const li = document.createElement("li");
-      li.innerHTML = `${idx + 1}. <span class="font-semibold">${num}</span> - <span class="text-indigo-700 font-bold">${amt.toLocaleString("th-TH")} บาท</span>`;
+      li.innerHTML = `${idx + 1}. <span class="font-semibold">${num}</span> - <span class="text-indigo-700 font-bold">${amt.toLocaleString("th-TH")}฿</span>`;
       ul.appendChild(li);
     });
 
