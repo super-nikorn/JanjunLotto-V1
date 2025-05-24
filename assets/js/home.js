@@ -59,20 +59,6 @@ export async function initHomePage() {
     maximumFractionDigits: 2,
   });
 
-  // // 5. แสดงเลขที่ขายดีที่สุด
-  // let maxNum = "-";
-  // let maxAmt = 0;
-  // for (let num in numberStats) {
-  //   if (numberStats[num] > maxAmt) {
-  //     maxAmt = numberStats[num];
-  //     maxNum = num;
-  //   }
-  // }
-  // topNumber.textContent = `${maxNum} (${maxAmt.toLocaleString("th-TH", {
-  //   minimumFractionDigits: 2,
-  //   maximumFractionDigits: 2,
-  // })})`;
-
   // 6. แสดง Top 3 ของแต่ละประเภท
   topPerTypeEl.innerHTML = "";
   for (let type in statsByType) {
@@ -82,18 +68,37 @@ export async function initHomePage() {
       .slice(0, 3);
 
     const section = document.createElement("div");
-    section.classList.add("bg-white", "p-2", "rounded-lg", "shadow-md");
+    section.classList.add(
+      "bg-white",
+      "p-3",
+      "rounded-lg",
+      "border",
+      "border-gray-100",
+      "shadow-sm",
+      "mb-3"
+    );
 
     const title = document.createElement("h3");
-    title.className = "text-indigo-600 font-bold text-xs mb-2 underline";
+    title.className = "text-gray-700 font-medium text-sm mb-2";
     title.textContent = `Top ${type}`;
 
     const ul = document.createElement("ul");
-    ul.className = "text-gray-700 text-xs space-y-1";
+    ul.className = "text-gray-600 text-sm space-y-2";
 
     sortedTop.forEach(([num, amt], idx) => {
       const li = document.createElement("li");
-      li.innerHTML = `${idx + 1}. <span class="font-semibold">${num}</span> - <span class="text-indigo-700 font-bold">${amt.toLocaleString("th-TH")}฿</span>`;
+      li.className = "flex justify-between items-center";
+
+      const rankAndNumber = document.createElement("span");
+      rankAndNumber.className = "text-gray-500";
+      rankAndNumber.textContent = `${idx + 1}. ${num}`;
+
+      const amount = document.createElement("span");
+      amount.className = "font-medium text-indigo-600";
+      amount.textContent = `${amt.toLocaleString("th-TH")}฿`;
+
+      li.appendChild(rankAndNumber);
+      li.appendChild(amount);
       ul.appendChild(li);
     });
 
