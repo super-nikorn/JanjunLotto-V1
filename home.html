@@ -101,7 +101,7 @@
 
   <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6 mb-2 mt-2">
     <h3 class="text-red-500 font-bold">3 อันดับของหวยแต่ละประเภท</h3>
-    <div id="topPerType" class="grid grid-cols-3 md:grid-cols-2 gap-2 mt-2">
+    <div id="topPerType">
     </div>
     <div class="stats-card bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden mt-4">
       <div class="header border-b border-gray-100 p-4">
@@ -149,30 +149,27 @@
       ข้อมูลอัพเดทเมื่อมาอยู่ที่หน้าแรก
     </p>
   </div>
+  <script type="module">
+    import { initHomePage } from "./assets/js/home.js";
+    import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
+    import { setCurrentDate } from "./assets/js/date.js";
+    import { setupDigitTypeForm, setupAddTicketForm, setupDigitTypeHighlight } from "./assets/js/add.js";
+    import { loadModal } from "./assets/js/loadModal.js";
+    import { setupTicketDialog } from "./assets/js/modal.js";
+  
+    document.addEventListener("DOMContentLoaded", () => {
+      initHomePage();
+      setupLogoutButton();
+      setCurrentDate();
+      setupMenuToggle();
+  
+      loadModal().then(() => {
+        setupTicketDialog();
+        setupDigitTypeForm();
+        setupAddTicketForm();
+        setupDigitTypeHighlight();
+      })
+    });
+  </script>
 </body>
-
-<script type="module">
-  import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
-  import { setCurrentDate } from "./assets/js/date.js";
-  import { setupDigitTypeForm, setupAddTicketForm, setupDigitTypeHighlight } from "./assets/js/add.js";
-  import { initHomePage } from "./assets/js/home.js";
-  import { loadModal } from "./assets/js/loadModal.js";
-  import { setupTicketDialog } from "./assets/js/modal.js";
-
-  document.addEventListener("DOMContentLoaded", () => {
-    setupLogoutButton();
-    setCurrentDate();
-    setupMenuToggle();
-    initHomePage();
-
-    loadModal().then(() => {
-      setupTicketDialog();
-      setupDigitTypeForm();
-      setupAddTicketForm();
-      setupDigitTypeHighlight();
-    })
-
-  });
-</script>
-
 </html>

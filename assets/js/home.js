@@ -61,51 +61,83 @@ export async function initHomePage() {
 
   // 6. แสดง Top 3 ของแต่ละประเภท
   topPerTypeEl.innerHTML = "";
+  const container = document.createElement("div");
+  container.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-gray-50 rounded-xl";
+
   for (let type in statsByType) {
     const numberAmountMap = statsByType[type];
     const sortedTop = Object.entries(numberAmountMap)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 3);
 
+    // ตรวจสอบว่ามีข้อมูลหรือไม่
+    if (sortedTop.length === 0) continue;
+
     const section = document.createElement("div");
     section.classList.add(
       "bg-white",
-      "p-3",
-      "rounded-lg",
-      "border",
-      "border-gray-100",
-      "shadow-sm",
-      "mb-3"
+      "p-4",
+      "rounded-xl",
+      "shadow-md",
+      "hover:shadow-lg",
+      "transition-all",
+      "duration-200",
+      // "border-l-4",
+      // type.includes("บน") ? "border-blue-500" :
+      //   type.includes("ล่าง") ? "border-green-500" :
+      //     type.includes("โต๊ด") ? "border-purple-500" :
+      //       type.includes("ตรง") ? "border-red-500" :
+      //         type.includes("หน้า") ? "border-amber-500" :
+      //           type.includes("ท้าย") ? "border-cyan-500" :
+                  // "border-indigo-500"
     );
 
     const title = document.createElement("h3");
-    title.className = "text-gray-700 font-medium text-sm mb-2";
-    title.textContent = `Top ${type}`;
+    title.className = "text-lg font-bold mb-3 flex items-center";
+
+    // เพิ่มไอคอนตามประเภท
+    const icon = document.createElement("span");
+    icon.className = "mr-2";
+    icon.innerHTML = type.includes("บน") ? "🔝" :
+      type.includes("ล่าง") ? "🔻" :
+        type.includes("โต๊ด") ? "🎯" :
+          type.includes("ตรง") ? "✨" :
+            type.includes("หน้า") ? "👆" :
+              type.includes("ท้าย") ? "👇" : "🏅";
+
+    title.appendChild(icon);
+    title.appendChild(document.createTextNode(`Top ${type}`));
 
     const ul = document.createElement("ul");
-    ul.className = "text-gray-600 text-sm space-y-2";
+    ul.className = "space-y-3";
 
     sortedTop.forEach(([num, amt], idx) => {
       const li = document.createElement("li");
-      li.className = "flex justify-between items-center";
-
-      const rankAndNumber = document.createElement("span");
-      rankAndNumber.className = "text-gray-500";
-      rankAndNumber.textContent = `${idx + 1}. ${num}`;
-
-      const amount = document.createElement("span");
-      amount.className = "font-medium text-indigo-600";
-      amount.textContent = `${amt.toLocaleString("th-TH")}฿`;
-
-      li.appendChild(rankAndNumber);
-      li.appendChild(amount);
+      li.className = "flex justify-between items-center p-2 rounded-lg hover:bg-gray-50";
+      li.innerHTML = `
+      <div class="flex items-center">
+        <span class="w-7 h-7 flex items-center justify-center rounded-full 
+          ${idx === 0 ? 'bg-yellow-400' : idx === 1 ? 'bg-gray-300' : 'bg-pink-300'} 
+          text-white font-bold mr-3">
+          ${idx + 1}
+        </span>
+        <span class="font-bold text-gray-800">${num}</span>
+      </div>
+      <span class="font-bold ${idx === 0 ? 'text-green-600' : 'text-blue-600'}">
+        ${amt.toLocaleString("th-TH")}฿
+      </span>
+    `;
       ul.appendChild(li);
     });
 
     section.appendChild(title);
     section.appendChild(ul);
-    topPerTypeEl.appendChild(section);
+    container.appendChild(section);
   }
+
+  topPerTypeEl.appendChild(container);
+
+  topPerTypeEl.appendChild(container);
 
   // 7. ดึงข้อมูลหวยจาก API ภายนอก
   try {

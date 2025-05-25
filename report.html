@@ -74,141 +74,22 @@
         </div>
     </nav>
 
-    <div class="container mx-auto px-4 py-6">
-        <!-- Header Section -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-            <div>
-                <h1 class="text-2xl font-semibold text-gray-800">รายงานสรุปยอดขาย</h1>
-                <p class="text-gray-500 mt-1">ข้อมูลอัปเดตล่าสุด: <span id="update-time" class="font-medium"></span></p>
-            </div>
-            <div class="mt-4 md:mt-0">
-                <button id="print-btn"
-                    class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 flex items-center">
-                    พิมพ์รายงาน
-                </button>
-            </div>
-        </div>
-
-        <!-- Dashboard Grid -->
-        <div class="dashboard-grid">
-            <!-- Total Sales Card -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover-scale">
-                <h3 class="text-gray-500 text-sm font-medium mb-1">ยอดขายรวม</h3>
-                <div class="flex items-baseline">
-                    <span id="total-sales" class="text-3xl font-semibold text-gray-800">0</span>
-                    <span class="text-gray-500 ml-2">บาท</span>
-                </div>
-                <div class="mt-4 pt-3 border-t border-gray-100">
-                    <p class="text-gray-500 text-sm">จำนวนบิลทั้งหมด: <span id="total-bills"
-                            class="font-medium text-gray-700">0</span></p>
-                </div>
-            </div>
-
-            <!-- Latest Lottery Results -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover-scale">
-                <h3 class="text-gray-500 text-sm font-medium mb-3">ผลหวยล่าสุด</h3>
-                <div class="space-y-3">
-                    <div>
-                        <p class="text-gray-400 text-xs">งวดที่ <span id="lotto-round"
-                                class="text-gray-600 font-medium">--</span></p>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">รางวัลที่ 1</span>
-                        <span id="first-prize" class="font-mono font-medium text-gray-800">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">เลขหน้า 3 ตัว</span>
-                        <span id="three-front" class="font-mono font-medium text-gray-800">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">เลขท้าย 3 ตัว</span>
-                        <span id="three-back" class="font-mono font-medium text-gray-800">--</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">เลขท้าย 2 ตัว</span>
-                        <span id="two-digit" class="font-mono font-medium text-gray-800">--</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Top Numbers Card -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover-scale">
-                <h3 class="text-gray-500 text-sm font-medium mb-3">หมายเลขยอดนิยม</h3>
-                <div id="top-numbers" class="space-y-3">
-                    <!-- จะถูกเติมข้อมูลโดย JavaScript -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Top Per Type Section -->
-        <div class="mt-8">
-            <h2 class="text-lg font-medium text-gray-800 mb-4">สรุปยอดตามประเภท</h2>
-            <div id="top-per-type" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- จะถูกเติมข้อมูลโดย JavaScript -->
-            </div>
-        </div>
-
-        <!-- Recent Transactions -->
-        <div class="mt-8">
-            <h2 class="text-lg font-medium text-gray-800 mb-4">รายการล่าสุด</h2>
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                ชื่อ</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                หมายเลข</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                ประเภท</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                จำนวนเงิน</th>
-                        </tr>
-                    </thead>
-                    <tbody id="recent-transactions" class="bg-white divide-y divide-gray-200">
-                        <!-- จะถูกเติมข้อมูลโดย JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
     <script type="module">
-        import { initReportPage } from "./assets/js/report.js";
-
         import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
         import { setCurrentDate } from "./assets/js/date.js";
         import { setupDigitTypeForm, setupAddTicketForm, setupDigitTypeHighlight } from "./assets/js/add.js";
-        import { initHomePage } from "./assets/js/home.js";
         import { loadModal } from "./assets/js/loadModal.js";
         import { setupTicketDialog } from "./assets/js/modal.js";
         document.addEventListener("DOMContentLoaded", () => {
             setupLogoutButton();
             setCurrentDate();
             setupMenuToggle();
-            initHomePage();
-            initReportPage();
             loadModal().then(() => {
                 setupTicketDialog();
                 setupDigitTypeForm();
                 setupAddTicketForm();
                 setupDigitTypeHighlight();
             })
-            // ตั้งเวลาอัปเดต
-            const updateTimeElement = document.getElementById('update-time');
-            const now = new Date();
-            updateTimeElement.textContent = now.toLocaleString('th-TH', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-
-            // ปุ่มพิมพ์
-            document.getElementById('print-btn').addEventListener('click', () => {
-                window.print();
-            });
         });
     </script>
 </body>
