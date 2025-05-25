@@ -129,27 +129,27 @@
       </div>
     </div>
   </div>
-  <div class="max-w-4xl mx-auto overflow-x-auto shadow-lg rounded-lg mt-2">
+  <!-- <div class="max-w-4xl mx-auto overflow-x-auto shadow-lg rounded-lg mt-2">
     <table class="w-full border-collapse bg-white mb-4">
       <thead class="bg-indigo-500 text-white uppercase text-sm">
-        <tr>
+        <tr> -->
           <!-- <th class="py-2 px-4">เลขที่</th> -->
-          <th class="py-2 px-4">ชื่อผู้ซื้อ</th>
+          <!-- <th class="py-2 px-4">ชื่อผู้ซื้อ</th>
           <th class="py-2 px-4">เลขที่ซื้อ</th>
-          <th class="py-2 px-4">ประเภท</th>
+          <th class="py-2 px-4">ประเภท</th> -->
           <!-- <th class="py-2 px-4">วันที่</th> -->
-          <th class="py-2 px-4">จำนวนเงิน</th>
+          <!-- <th class="py-2 px-4">จำนวนเงิน</th>
         </tr>
       </thead>
       <tbody id="dataList" class="text-gray-700 text-sm text-center"></tbody>
     </table>
   </div>
-  <div>
+  <div> -->
     <p class="text-red-500 text-xs mt-2 text-center mb-2">
       ข้อมูลอัพเดทเมื่อมาอยู่ที่หน้าแรก
     </p>
   </div>
-  <script type="module">
+  <!-- <script type="module">
     import { initHomePage } from "./assets/js/home.js";
     import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
     import { setCurrentDate } from "./assets/js/date.js";
@@ -170,6 +170,14 @@
         setupDigitTypeHighlight();
       })
     });
+  </script> -->
+  <script type="module">
+    import { initHomePage } from "/assets/js/home.js"
+// เมื่อ DOM โหลดเสร็จแล้ว
+    document.addEventListener('DOMContentLoaded', () => {
+      initHomePage();
+    });
+
   </script>
 </body>
 

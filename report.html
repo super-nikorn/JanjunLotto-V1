@@ -116,7 +116,7 @@
         <!-- <div id="reportTopPerType"></div> -->
     </main>
 
-    <script type="module">
+    <!-- <script type="module">
         import { initReportPage } from "./assets/js/report.js";
         import { initHomePage } from "./assets/js/home.js";
         import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
@@ -142,7 +142,15 @@
                 setupDigitTypeHighlight();
             });
         });
-    </script>
+    </script> -->
+      <script type="module">
+    import { initHomePage } from "/assets/js/home.js"
+// เมื่อ DOM โหลดเสร็จแล้ว
+    document.addEventListener('DOMContentLoaded', () => {
+      initHomePage();
+    });
+
+  </script>
 </body>
 
 </html>
