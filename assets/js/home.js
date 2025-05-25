@@ -5,6 +5,7 @@ import {
   getDocs,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+
 export async function initHomePage() {
   const dataList = document.getElementById("dataList");
   const totalAmount = document.getElementById("totalAmount");
@@ -82,14 +83,6 @@ export async function initHomePage() {
       "hover:shadow-lg",
       "transition-all",
       "duration-200",
-      // "border-l-4",
-      // type.includes("บน") ? "border-blue-500" :
-      //   type.includes("ล่าง") ? "border-green-500" :
-      //     type.includes("โต๊ด") ? "border-purple-500" :
-      //       type.includes("ตรง") ? "border-red-500" :
-      //         type.includes("หน้า") ? "border-amber-500" :
-      //           type.includes("ท้าย") ? "border-cyan-500" :
-                  // "border-indigo-500"
     );
 
     const title = document.createElement("h3");

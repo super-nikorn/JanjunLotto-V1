@@ -156,13 +156,13 @@
     import { setupDigitTypeForm, setupAddTicketForm, setupDigitTypeHighlight } from "./assets/js/add.js";
     import { loadModal } from "./assets/js/loadModal.js";
     import { setupTicketDialog } from "./assets/js/modal.js";
-  
+
     document.addEventListener("DOMContentLoaded", () => {
       initHomePage();
       setupLogoutButton();
       setCurrentDate();
       setupMenuToggle();
-  
+
       loadModal().then(() => {
         setupTicketDialog();
         setupDigitTypeForm();
@@ -172,4 +172,5 @@
     });
   </script>
 </body>
+
 </html>

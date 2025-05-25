@@ -13,20 +13,6 @@
             font-family: "Noto Sans Thai", sans-serif;
             background-color: #f8fafc;
         }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .hover-scale {
-            transition: transform 0.2s ease;
-        }
-
-        .hover-scale:hover {
-            transform: translateY(-2px);
-        }
     </style>
 </head>
 
@@ -74,22 +60,87 @@
         </div>
     </nav>
 
+    <main class="max-w-7xl mx-auto p-6">
+        <h1 class="text-2xl font-bold text-indigo-800 mb-6">แดชบอร์ดรายงานยอดขาย</h1>
+
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-gray-600 text-sm font-semibold">ยอดรวมทั้งหมด</h2>
+                <p id="totalAmount" class="text-3xl font-bold text-indigo-700 mt-2">--</p>
+                <h2 id="reportTotal" class="text-xl font-bold"></h2>
+
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-gray-600 text-sm font-semibold">เลขขายดีสุด</h2>
+                <ul id="topNumber" class="mt-2 space-y-1 text-gray-800 font-medium"></ul>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-gray-600 text-sm font-semibold">ผลสลากงวดล่าสุด</h2>
+                <div class="mt-2 text-sm text-gray-700">
+                    <div>งวด: <span id="lotto-round" class="font-semibold">--</span></div>
+                    <div>รางวัลที่ 1: <span id="first-prize" class="font-bold">--</span></div>
+                    <div>เลขหน้า 3 ตัว: <span id="three-front" class="font-bold">--</span></div>
+                    <div>เลขท้าย 3 ตัว: <span id="three-back" class="font-bold">--</span></div>
+                    <div>เลขท้าย 2 ตัว: <span id="two-digit" class="font-bold">--</span></div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-indigo-700">รายการโพยทั้งหมด</h2>
+                <div class="flex items-center space-x-2">
+                    <label for="filterDate" class="text-sm text-gray-600">เลือกวันที่:</label>
+                    <input type="date" id="filterDate" class="border border-gray-300 rounded-md px-3 py-1 text-sm" />
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">ชื่อ</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">เลข</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">ประเภท</th>
+                            <th class="px-4 py-2 text-right text-sm font-semibold text-gray-600">ยอดเงิน</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataList" class="bg-white divide-y divide-gray-100"></tbody>
+                    <tbody id="reportTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+        
+        <section id="topPerType" class="mt-8"></section>
+        <!-- <div id="reportTopPerType"></div> -->
+    </main>
+
     <script type="module">
+        import { initReportPage } from "./assets/js/report.js";
+        import { initHomePage } from "./assets/js/home.js";
         import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
         import { setCurrentDate } from "./assets/js/date.js";
-        import { setupDigitTypeForm, setupAddTicketForm, setupDigitTypeHighlight } from "./assets/js/add.js";
+        import {
+            setupDigitTypeForm,
+            setupAddTicketForm,
+            setupDigitTypeHighlight,
+        } from "./assets/js/add.js";
         import { loadModal } from "./assets/js/loadModal.js";
         import { setupTicketDialog } from "./assets/js/modal.js";
         document.addEventListener("DOMContentLoaded", () => {
+            initReportPage();
             setupLogoutButton();
             setCurrentDate();
             setupMenuToggle();
+            initHomePage();
+
             loadModal().then(() => {
                 setupTicketDialog();
                 setupDigitTypeForm();
                 setupAddTicketForm();
                 setupDigitTypeHighlight();
-            })
+            });
         });
     </script>
 </body>
