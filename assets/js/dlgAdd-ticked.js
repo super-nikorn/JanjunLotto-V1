@@ -1,5 +1,5 @@
-// นำเข้าไฟล์ที่จำเป็น
-import { setupAddTicketForm } from "./forms/save-ticket.js";
+import { setupAddTicketForm, setupDigitTypeForm, setupDigitTypeHighlight } from "./forms/save-ticket.js";
+
 export function setupTicketDialog() {
   const dialogAddTicket = document.getElementById("addTicketDialog");
   const cancelAddTicketBtn = document.getElementById("cancelAddTicketBtn");
@@ -24,6 +24,10 @@ export function setupTicketDialog() {
       addTicketForm.reset();
       setCurrentDate();
       dialogAddTicket.showModal();
+      
+      // เรียกใช้ฟังก์ชันหลังจากเปิด dialog
+      setupDigitTypeForm();
+      setupDigitTypeHighlight();
     });
   });
   

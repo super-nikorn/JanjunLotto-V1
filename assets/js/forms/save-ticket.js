@@ -64,9 +64,9 @@ export function setupAddTicketForm() {
       form.querySelector('button[type="submit"]').disabled = true;
       await saveTicket({ name, number, type, amount });
 
-      if (shouldReverse && number.length === 2 && number[0] !==number[1]) {
+      if (shouldReverse && number.length === 2 && number[0] !== number[1]) {
         const reversed = number.split("").reverse().join("");
-        await saveTicket({name, number: reversed, type, amount});
+        await saveTicket({ name, number: reversed, type, amount });
       }
 
       alert("บันทึกโพยเรียบร้อย!");
@@ -89,7 +89,10 @@ export function setupDigitTypeForm() {
   const numberInput = document.getElementById("numberInput");
   const typeSelect = document.getElementById("typeSelect");
   const reverseCheckbox = document.getElementById("reverseNumber")
-
+  if (!digitRadios.length || !numberInput || !typeSelect || !reverseCheckbox) {
+    console.error("Element not found for setupDigitTypeForm");
+    return;
+  }
 
   const typeOptions = {
     2: ["บน", "ล่าง", "บน-ล่าง"],
@@ -141,22 +144,29 @@ export function setupDigitTypeForm() {
 
 export function setupDigitTypeHighlight() {
   const group = document.getElementById("digitTypeGroup");
+
+  // เพิ่มการตรวจสอบ element
+  if (!group) {
+    console.error("Element with ID 'digitTypeGroup' not found");
+    return;
+  }
+
   const labels = group.querySelectorAll("label");
 
   labels.forEach((label) => {
     const input = label.querySelector("input");
+    if (!input) return;
+
     input.addEventListener("change", () => {
-      labels.forEach((lbl) => lbl.classList.remove("bg-indigo-100", "border-indigo-500"));
+      labels.forEach((lbl) => {
+        lbl.classList.remove("bg-indigo-100", "border-indigo-500");
+      });
       label.classList.add("bg-indigo-100", "border-indigo-500");
     });
 
-    // เช็คว่า checked อยู่แล้วตอนโหลด
+    // เรียกใช้ทันทีสำหรับ input ที่ถูกเลือกอยู่แล้ว
     if (input.checked) {
       label.classList.add("bg-indigo-100", "border-indigo-500");
     }
   });
-}
-
-export function toogglenumberOperation(){
-
 }
