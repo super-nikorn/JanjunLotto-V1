@@ -1,4 +1,4 @@
-import { db } from "./api/firebase-config.js";
+import { db } from "../api/firebase-config.js";
 import {
   collection,
   query,

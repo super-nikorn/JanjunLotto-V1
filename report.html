@@ -17,49 +17,10 @@
 </head>
 
 <body class="bg-gray-50">
-      <div id="nav-placeholder"></div>
-    <!-- <nav class="bg-indigo-600 text-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0">
-                    <a href="home.html">
-                        <img src="assets/image/janjun.png" alt="Logo" /> -->
-                    </a>
-                </div>
-                <!-- เมนูด้านขวา -->
-                <!-- <div class="hidden md:flex item-center space-x-6">
-                    <a href="home.html" class="hover:text-gray-300">หน้าหลัก</a>
-                    <button class="openaddTicket hover:text-gray-300">
-                        เพิ่มโพยหวย
-                    </button>
-                    <a href="lottocheck.html" class="text-yellow-500 hover:text-gray-300">ตรวจบิลถูก</a>
-                    <a href="report.html" class="hover:text-gray-300">รายงาน</a>
-                    <button class="logoutBtn hover:text-gray-300">ออกจากระบบ</button>
-                </div> -->
-                <!-- เมนูมือถือ -->
-                <!-- <div class="md:hidden">
-                    <button id="menuBtn" class="focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div> -->
-        <!-- เมนูมือถือ (Dropdown) -->
-        <!-- <div id="mobileMenu" class="md:hidden px-4 pb-4 hidden">
-            <a href="home.html" class="block py-2 hover:text-gray-300">หน้าหลัก</a>
-            <button class="openaddTicket block py-2 hover:text-gray-300">
-                เพิ่มโพยหวย
-            </button>
-            <a href="lottocheck.html" class="text-yellow-500 block py-2 hover:text-gray-300">ตรวจบิลถูก</a>
-            <a href="report.html" class="block py-2 hover:text-gray-300">รายงาน</a>
-            <button class="logoutBtn block py-2 hover:text-gray-300">
-                ออกจากระบบ
-            </button>
-        </div>
-    </nav> -->
+    <div id="nav-placeholder"></div>
+    <div class="ticket-list">
+      <!-- ข้อมูลจะถูกเพิ่มที่นี่โดย JavaScript -->
+    </div>
 
     <main class="max-w-7xl mx-auto p-6">
         <h1 class="text-2xl font-bold text-indigo-800 mb-6">แดชบอร์ดรายงานยอดขาย</h1>
@@ -100,7 +61,7 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-100">
                         <tr>
-                            
+
                             <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">ชื่อ</th>
                             <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">เลข</th>
                             <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">ประเภท</th>
@@ -112,48 +73,12 @@
                 </table>
             </div>
         </section>
-        
-        <section id="topPerType" class="mt-8"></section>
-        <!-- <div id="reportTopPerType"></div> -->
+
     </main>
 
-    <!-- <script type="module">
-        import { initReportPage } from "./assets/js/report.js";
-        import { initHomePage } from "./assets/js/home.js";
-        import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
-        import { setCurrentDate } from "./assets/js/date.js";
-        import {
-            setupDigitTypeForm,
-            setupAddTicketForm,
-            setupDigitTypeHighlight,
-        } from "./assets/js/add.js";
-        import { loadModal } from "./assets/js/loadModal.js";
-        import { setupTicketDialog } from "./assets/js/modal.js";
-        document.addEventListener("DOMContentLoaded", () => {
-            initReportPage();
-            setupLogoutButton();
-            setCurrentDate();
-            setupMenuToggle();
-            initHomePage();
-
-            loadModal().then(() => {
-                setupTicketDialog();
-                setupDigitTypeForm();
-                setupAddTicketForm();
-                setupDigitTypeHighlight();
-            });
-        });
-    </script> -->
-      <!-- <script type="module"> -->
-    <!-- // import { initHomePage } from "/assets/js/home.js" -->
-<!-- // เมื่อ DOM โหลดเสร็จแล้ว -->
-<!-- //     document.addEventListener('DOMContentLoaded', () => { -->
-<!-- //       initHomePage(); -->
-<!-- //     }); -->
-
-<!-- //   </script> -->
-   <script type="module" src="./assets/js/main.js"></script>
-   <script type="module" src="./assets/js/dlgAdd-ticked.js"></script>
+    <script type="module" src="./assets/js/main.js"></script>
+    <script type="module" src="./assets/js/report.js"></script>
+    <script type="module" src="./assets/js/lotteryResults.js"></script>
 </body>
 
 </html>

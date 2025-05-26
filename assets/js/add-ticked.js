@@ -42,7 +42,7 @@ export function setupTicketDialog() {
   if (!container) return;
   
   try {
-    const response = await fetch("components/dlgAdd-ticked.html");
+    const response = await fetch("components/add-ticked.html");
     const html = await response.text();
     container.innerHTML = html;
 
