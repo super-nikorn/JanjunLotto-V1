@@ -2,6 +2,7 @@ import { fetchLotteryTickets } from './api/fetch-records.js';
 
 // ตัวแปร Global
 let allTickets = [];
+let filteredTickets = [];
 let currentSortField = 'date';
 let isAscending = false;
 let currentPage = 1;
@@ -10,214 +11,329 @@ const itemsPerPage = 10;
 // เริ่มต้นเมื่อ DOM โหลดเสร็จ
 document.addEventListener('DOMContentLoaded', async () => {
     try {
+        // แสดงสถานะกำลังโหลด
+        showLoading(true);
+
         // ดึงข้อมูลทั้งหมด
         allTickets = await fetchLotteryTickets();
 
-        // ตั้งค่าฟีเจอร์ต่างๆ
-        setupSorting();
-        setupSearch();
-        setupExportButton();
-
-        // แสดงผลข้อมูลแรก
-        applyAllFilters();
-        displaySummary(allTickets);
-
-        // ตั้งค่า Event Listener สำหรับการกรองวันที่
-        document.getElementById('filterDate')?.addEventListener('change', () => {
-            currentPage = 1;
-            applyAllFilters();
-        });
+        // ตั้งค่าการทำงานทั้งหมด
+        initializeApp();
 
     } catch (error) {
         console.error("Failed to load tickets:", error);
         showError("ไม่สามารถโหลดข้อมูลได้");
+    } finally {
+        showLoading(false);
     }
 });
 
-// 1. การเรียงลำดับข้อมูล
-function setupSorting() {
-    const headers = document.querySelectorAll('th[data-sort]');
+function initializeApp() {
+    // ตั้งค่า Event Listeners
+    setupEventListeners();
 
-    headers.forEach(header => {
-        header.style.cursor = 'pointer';
+    // แสดงข้อมูลแรก
+    applyFilters();
+
+    // อัพเดทสรุปข้อมูล
+    updateSummary();
+}
+
+function setupEventListeners() {
+    // การเรียงลำดับ
+    document.querySelectorAll('.sortable-header').forEach(header => {
         header.addEventListener('click', () => {
             const field = header.dataset.sort;
-            if (currentSortField === field) {
-                isAscending = !isAscending;
-            } else {
-                currentSortField = field;
-                isAscending = true;
-            }
-            applyAllFilters();
+            toggleSort(field);
+            applyFilters();
         });
     });
-}
 
-function sortTickets(tickets) {
-    return [...tickets].sort((a, b) => {
-        let comparison = 0;
-
-        if (currentSortField === 'amount') {
-            comparison = (a.amount || 0) - (b.amount || 0);
-        } else {
-            comparison = String(a[currentSortField] || '').localeCompare(String(b[currentSortField] || ''));
-        }
-
-        return isAscending ? comparison : -comparison;
-    });
-}
-
-// 2. การค้นหา (Search)
-function setupSearch() {
-    const searchInput = document.createElement('input');
-    searchInput.type = 'text';
-    searchInput.placeholder = 'ค้นหาชื่อหรือเลข...';
-    searchInput.className = 'border border-gray-300 rounded-md px-3 py-1 text-sm ml-4 w-64';
-
-    searchInput.addEventListener('input', () => {
+    // การค้นหา
+    document.getElementById('searchInput').addEventListener('input', debounce(() => {
         currentPage = 1;
-        applyAllFilters();
+        applyFilters();
+    }, 300));
+
+    // ฟิลเตอร์วันที่
+    document.getElementById('filterDate').addEventListener('change', () => {
+        currentPage = 1;
+        applyFilters();
     });
 
-    const headerDiv = document.querySelector('.flex.justify-between.items-center');
-    if (headerDiv) {
-        headerDiv.appendChild(searchInput);
-    }
-}
-
-function searchTickets(tickets, keyword) {
-    if (!keyword) return tickets;
-
-    const lowerKeyword = keyword.toLowerCase();
-    return tickets.filter(ticket => {
-        return (ticket.name && ticket.name.toLowerCase().includes(lowerKeyword)) ||
-            (ticket.number && ticket.number.toString().toLowerCase().includes(lowerKeyword));
+    // ฟิลเตอร์ประเภท
+    document.getElementById('filterType').addEventListener('change', () => {
+        currentPage = 1;
+        applyFilters();
     });
-}
 
-// 3. การแบ่งหน้า (Pagination)
-function setupPagination(filteredTickets) {
-    const totalPages = Math.ceil(filteredTickets.length / itemsPerPage);
-    const paginationDiv = document.createElement('div');
-    paginationDiv.className = 'flex justify-center items-center mt-4 space-x-2';
-
-    // ปุ่มก่อนหน้า
-    const prevButton = document.createElement('button');
-    prevButton.textContent = 'ก่อนหน้า';
-    prevButton.className = 'px-3 py-1 border rounded-md disabled:opacity-50';
-    prevButton.disabled = currentPage === 1;
-    prevButton.addEventListener('click', () => {
+    // Pagination
+    document.getElementById('prevPageBtn').addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
-            applyAllFilters();
+            applyFilters();
         }
     });
 
-    // แสดงหน้าปัจจุบัน
-    const pageInfo = document.createElement('span');
-    pageInfo.textContent = `หน้า ${currentPage} จาก ${totalPages}`;
-    pageInfo.className = 'px-4 text-sm';
-
-    // ปุ่มถัดไป
-    const nextButton = document.createElement('button');
-    nextButton.textContent = 'ถัดไป';
-    nextButton.className = 'px-3 py-1 border rounded-md disabled:opacity-50';
-    nextButton.disabled = currentPage === totalPages || totalPages === 0;
-    nextButton.addEventListener('click', () => {
+    document.getElementById('nextPageBtn').addEventListener('click', () => {
+        const totalPages = Math.ceil(filteredTickets.length / itemsPerPage);
         if (currentPage < totalPages) {
             currentPage++;
-            applyAllFilters();
+            applyFilters();
         }
     });
 
-    paginationDiv.appendChild(prevButton);
-    paginationDiv.appendChild(pageInfo);
-    paginationDiv.appendChild(nextButton);
-
-    // เพิ่ม Pagination ใต้ตาราง
-    const tableSection = document.querySelector('.bg-white.p-6.rounded-xl');
-    if (tableSection) {
-        const oldPagination = tableSection.querySelector('.pagination-container');
-        if (oldPagination) oldPagination.remove();
-
-        const container = document.createElement('div');
-        container.className = 'pagination-container mt-4';
-        container.appendChild(paginationDiv);
-        tableSection.appendChild(container);
-    }
+    // ส่งออก Excel
+    document.getElementById('exportBtn').addEventListener('click', exportToExcel);
 }
 
-function paginateTickets(tickets) {
-    const start = (currentPage - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    return tickets.slice(start, end);
-}
-
-// 4. การกรองข้อมูลแบบรวม (Combined Filters)
-function applyAllFilters() {
-    const searchInput = document.querySelector('input[type="text"]');
-    const searchTerm = searchInput ? searchInput.value : '';
-    const dateFilter = document.getElementById('filterDate')?.value;
-
+function applyFilters() {
     // กรองข้อมูล
-    let filtered = [...allTickets];
-
-    // กรองตามวันที่
-    if (dateFilter) {
-        filtered = filtered.filter(ticket => ticket.date === dateFilter);
-    }
-
-    // กรองตามคำค้นหา
-    if (searchTerm) {
-        filtered = searchTickets(filtered, searchTerm);
-    }
+    filterTickets();
 
     // เรียงลำดับ
-    filtered = sortTickets(filtered);
+    sortTickets();
 
     // แบ่งหน้า
-    const paginated = paginateTickets(filtered);
+    const paginatedTickets = paginateTickets();
 
-    // แสดงผล
-    displayTicketsInTable(paginated);
-    setupPagination(filtered);
+    // แสดงผลในตาราง
+    renderTable(paginatedTickets);
 
-    // อัพเดทสรุป
-    displaySummary(filtered);
+    // อัพเดท Pagination
+    updatePagination();
+
+    // อัพเดท Summary
+    updateSummary();
 }
 
-// 5. การส่งออกข้อมูล (Export)
-function setupExportButton() {
-    const exportButton = document.createElement('button');
-    exportButton.textContent = 'ส่งออก Excel';
-    exportButton.className = 'bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded-md text-sm';
-    exportButton.id = 'exportExcel';
+function filterTickets() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const dateFilter = document.getElementById('filterDate').value;
+    const typeFilter = document.getElementById('filterType').value;
 
-    exportButton.addEventListener('click', exportToExcel);
+    filteredTickets = allTickets.filter(ticket => {
+        // กรองตามคำค้นหา
+        const matchesSearch =
+            !searchTerm ||
+            (ticket.name && ticket.name.toLowerCase().includes(searchTerm)) ||
+            (ticket.number && ticket.number.toString().includes(searchTerm));
 
-    const headerDiv = document.querySelector('.flex.justify-between.items-center');
-    if (headerDiv) {
-        headerDiv.appendChild(exportButton);
+        // กรองตามวันที่
+        const matchesDate =
+            !dateFilter ||
+            ticket.date === dateFilter;
+
+        // กรองตามประเภท
+        const matchesType =
+            !typeFilter ||
+            ticket.type === typeFilter;
+
+        return matchesSearch && matchesDate && matchesType;
+    });
+}
+
+function sortTickets() {
+    filteredTickets.sort((a, b) => {
+        let valueA = a[currentSortField];
+        let valueB = b[currentSortField];
+
+        // สำหรับการเรียงลำดับตัวเลข
+        if (currentSortField === 'amount') {
+            valueA = valueA || 0;
+            valueB = valueB || 0;
+            return isAscending ? valueA - valueB : valueB - valueA;
+        }
+
+        // สำหรับการเรียงลำดับข้อความ
+        valueA = String(valueA || '').toLowerCase();
+        valueB = String(valueB || '').toLowerCase();
+
+        if (valueA < valueB) return isAscending ? -1 : 1;
+        if (valueA > valueB) return isAscending ? 1 : -1;
+        return 0;
+    });
+}
+
+function paginateTickets() {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredTickets.slice(startIndex, endIndex);
+}
+
+function renderTable(tickets) {
+    const tbody = document.getElementById('dataTableBody');
+    tbody.innerHTML = '';
+
+    if (tickets.length === 0) {
+        tbody.innerHTML = `
+      <tr>
+        <td colspan="5" class="px-4 py-4 text-center text-gray-500">ไม่พบข้อมูลลอตเตอรี่</td>
+      </tr>
+    `;
+        return;
+    }
+
+    tickets.forEach(ticket => {
+        const row = document.createElement('tr');
+        row.className = 'ticket-row hover:bg-gray-50';
+
+        row.innerHTML = `
+      <td class="px-4 py-3 text-sm text-gray-800 whitespace-nowrap">${ticket.name || '-'}</td>
+      <td class="px-4 py-3 text-sm font-medium text-indigo-600 whitespace-nowrap">${ticket.number || '-'}</td>
+      <td class="px-4 py-3 text-sm text-gray-800 whitespace-nowrap">${ticket.type || '-'}</td>
+      <td class="px-4 py-3 text-sm text-gray-800 text-right whitespace-nowrap">
+        ${ticket.amount ? ticket.amount.toLocaleString('th-TH') + ' บาท' : '0 บาท'}
+      </td>
+      <td class="px-4 py-3 text-sm text-gray-500 whitespace-nowrap">${ticket.date || '-'}</td>
+    `;
+
+        tbody.appendChild(row);
+    });
+}
+
+function updatePagination() {
+    const totalItems = filteredTickets.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+    const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+    // อัพเดทข้อความแสดงผล
+    document.getElementById('startItem').textContent = startItem;
+    document.getElementById('endItem').textContent = endItem;
+    document.getElementById('totalItems').textContent = totalItems;
+
+    // อัพเดทปุ่ม Pagination
+    document.getElementById('prevPageBtn').disabled = currentPage === 1;
+    document.getElementById('nextPageBtn').disabled = currentPage === totalPages || totalPages === 0;
+
+    // สร้างหมายเลขหน้า
+    const pageNumbersContainer = document.getElementById('pageNumbers');
+    pageNumbersContainer.innerHTML = '';
+
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    // ปุ่มหน้าแรก
+    if (startPage > 1) {
+        const firstPageBtn = createPageButton(1);
+        pageNumbersContainer.appendChild(firstPageBtn);
+
+        if (startPage > 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'px-2 py-1';
+            ellipsis.textContent = '...';
+            pageNumbersContainer.appendChild(ellipsis);
+        }
+    }
+
+    // หมายเลขหน้า
+    for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = createPageButton(i);
+        if (i === currentPage) {
+            pageBtn.classList.add('bg-indigo-100', 'text-indigo-700');
+        }
+        pageNumbersContainer.appendChild(pageBtn);
+    }
+
+    // ปุ่มหน้าสุดท้าย
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.className = 'px-2 py-1';
+            ellipsis.textContent = '...';
+            pageNumbersContainer.appendChild(ellipsis);
+        }
+
+        const lastPageBtn = createPageButton(totalPages);
+        pageNumbersContainer.appendChild(lastPageBtn);
+    }
+}
+
+function createPageButton(pageNumber) {
+    const button = document.createElement('button');
+    button.className = 'px-3 py-1 border rounded-md text-sm mx-1';
+    button.textContent = pageNumber;
+
+    button.addEventListener('click', () => {
+        currentPage = pageNumber;
+        applyFilters();
+    });
+
+    return button;
+}
+
+function updateSummary() {
+    const totalAmount = filteredTickets.reduce((sum, ticket) => sum + (ticket.amount || 0), 0);
+    const totalTickets = filteredTickets.length;
+
+    document.getElementById('totalCount').textContent = totalTickets.toLocaleString('th-TH');
+    document.getElementById('totalAmount').textContent = totalAmount.toLocaleString('th-TH');
+}
+
+function toggleSort(field) {
+    if (currentSortField === field) {
+        isAscending = !isAscending;
+    } else {
+        currentSortField = field;
+        isAscending = true;
+    }
+
+    // อัพเดทไอคอนการเรียงลำดับ
+    document.querySelectorAll('.sortable-header .sort-icon').forEach(icon => {
+        icon.classList.add('text-gray-400');
+        icon.classList.remove('text-indigo-600');
+    });
+
+    const currentHeader = document.querySelector(`th[data-sort="${currentSortField}"] .sort-icon`);
+    if (currentHeader) {
+        currentHeader.classList.remove('text-gray-400');
+        currentHeader.classList.add('text-indigo-600');
+
+        // เปลี่ยนทิศทางไอคอน
+        if (isAscending) {
+            currentHeader.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>`;
+        } else {
+            currentHeader.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>`;
+        }
     }
 }
 
 function exportToExcel() {
     try {
-        // สร้าง worksheet จากข้อมูล
-        const ws = XLSX.utils.json_to_sheet(allTickets.map(ticket => ({
+        // เตรียมข้อมูลสำหรับ Excel
+        const excelData = filteredTickets.map(ticket => ({
             'ชื่อ': ticket.name || '',
             'เลข': ticket.number || '',
             'ประเภท': ticket.type || '',
             'ยอดเงิน': ticket.amount || 0,
             'วันที่': ticket.date || ''
-        })));
+        }));
+
+        // สร้าง worksheet
+        const ws = XLSX.utils.json_to_sheet(excelData);
+
+        // ปรับความกว้างคอลัมน์
+        ws['!cols'] = [
+            { wch: 20 }, // ชื่อ
+            { wch: 10 }, // เลข
+            { wch: 15 }, // ประเภท
+            { wch: 15 }, // ยอดเงิน
+            { wch: 12 }  // วันที่
+        ];
 
         // สร้าง workbook
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "รายการลอตเตอรี่");
 
         // ส่งออกไฟล์
-        XLSX.writeFile(wb, `รายการลอตเตอรี่_${new Date().toISOString().slice(0, 10)}.xlsx`, {
+        const dateStr = new Date().toISOString().slice(0, 10);
+        XLSX.writeFile(wb, `รายการลอตเตอรี่_${dateStr}.xlsx`, {
             bookType: 'xlsx',
             type: 'array',
             cellStyles: true,
@@ -230,72 +346,54 @@ function exportToExcel() {
     }
 }
 
-// 6. การนับจำนวนรวม (Summary)
-function displaySummary(tickets) {
-    let summaryDiv = document.querySelector('.summary-container');
-
-    if (!summaryDiv) {
-        summaryDiv = document.createElement('div');
-        summaryDiv.className = 'summary-container bg-blue-50 p-3 rounded-md mb-4 flex justify-between text-sm';
-
-        const tableSection = document.querySelector('.bg-white.p-6.rounded-xl');
-        if (tableSection) {
-            tableSection.insertBefore(summaryDiv, tableSection.firstChild);
-        }
-    }
-
-    const totalAmount = tickets.reduce((sum, ticket) => sum + (ticket.amount || 0), 0);
-    const totalTickets = tickets.length;
-
-    summaryDiv.innerHTML = `
-    <div>
-      <span class="font-medium">จำนวนโพย:</span> ${totalTickets.toLocaleString('th-TH')} รายการ
-    </div>
-    <div>
-      <span class="font-medium">รวมยอดเงิน:</span> ${totalAmount.toLocaleString('th-TH')} บาท
+function showLoading(isLoading) {
+    const loadingElement = document.createElement('div');
+    loadingElement.id = 'loadingOverlay';
+    loadingElement.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    loadingElement.innerHTML = `
+    <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mx-auto mb-4"></div>
+      <p class="text-gray-700">กำลังโหลดข้อมูล...</p>
     </div>
   `;
-}
 
-// แสดงข้อมูลในตาราง
-function displayTicketsInTable(tickets) {
-    const tbody = document.querySelector('tbody');
-    if (!tbody) return;
-
-    tbody.innerHTML = '';
-
-    if (tickets.length === 0) {
-        tbody.innerHTML = `
-      <tr>
-        <td colspan="4" class="px-4 py-2 text-center text-gray-500">ไม่พบข้อมูลลอตเตอรี่</td>
-      </tr>
-    `;
-        return;
+    if (isLoading) {
+        document.body.appendChild(loadingElement);
+    } else {
+        const existingLoader = document.getElementById('loadingOverlay');
+        if (existingLoader) {
+            existingLoader.remove();
+        }
     }
-
-    tickets.forEach(ticket => {
-        const row = document.createElement('tr');
-        row.className = 'hover:bg-gray-50';
-
-        row.innerHTML = `
-      <td class="px-4 py-2 text-sm text-gray-800">${ticket.name || '-'}</td>
-      <td class="px-4 py-2 text-sm font-medium text-indigo-600">${ticket.number || '-'}</td>
-      <td class="px-4 py-2 text-sm text-gray-800">${ticket.type || '-'}</td>
-      <td class="px-4 py-2 text-sm text-gray-800 text-right">${ticket.amount ? ticket.amount.toLocaleString('th-TH') + ' บาท' : '0 บาท'}</td>
-    `;
-
-        tbody.appendChild(row);
-    });
 }
 
-// แสดงข้อความผิดพลาด
 function showError(message) {
     const errorDiv = document.createElement('div');
-    errorDiv.className = 'fixed top-4 right-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 z-50';
-    errorDiv.textContent = message;
+    errorDiv.className = 'fixed top-4 right-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 z-50 max-w-sm';
+    errorDiv.innerHTML = `
+    <div class="flex items-center">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <span>${message}</span>
+    </div>
+  `;
+
     document.body.appendChild(errorDiv);
 
     setTimeout(() => {
         errorDiv.remove();
     }, 5000);
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function () {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            func.apply(context, args);
+        }, wait);
+    };
 }
