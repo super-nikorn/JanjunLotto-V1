@@ -6,36 +6,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>เจ้ามือหวย - หน้าแรก</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" />
-  <style>
+  <link rel="stylesheet" href="./assets/css/style.css" />
+
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" /> -->
+  <!-- <style>
     body {
       font-family: "Noto sans Thai", sans-serif;
       background-color: #f9fafb;
-    }
-  </style>
+      }
+    </style> -->
 </head>
 
 <body>
-  <nav class="bg-indigo-600 text-white shadow-md">
+  <div id="nav-placeholder"></div>
+  <button class="openaddTicket block py-2 hover:text-gray-300">
+    เพิ่มโพยหวย
+  </button>
+  <div id="dialog-placeholder"></div>
+
+  <!-- <nav class="bg-indigo-600 text-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
         <div class="flex-shrink-0">
           <a href="home.html">
             <img src="assets/image/janjun.png" alt="Logo" />
           </a>
-        </div>
-        <!-- เมนูด้านขวา -->
-        <div class="hidden md:flex item-center space-x-6">
-          <a href="home.html" class="hover:text-gray-300">หน้าหลัก</a>
-          <button class="openaddTicket hover:text-gray-300">
-            เพิ่มโพยหวย
-          </button>
-          <a href="lottocheck.html" class="text-yellow-500 hover:text-gray-300">ตรวจบิลถูก</a>
-          <a href="report.html" class="hover:text-gray-300">รายงาน</a>
-          <button class="logoutBtn hover:text-gray-300">ออกจากระบบ</button>
-        </div>
-        <!-- เมนูมือถือ -->
-        <div class="md:hidden">
+        </div> -->
+  <!-- เมนูด้านขวา -->
+  <!-- เมนูมือถือ -->
+  <!-- <div class="md:hidden">
           <button id="menuBtn" class="focus:outline-none">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -43,9 +42,9 @@
           </button>
         </div>
       </div>
-    </div>
-    <!-- เมนูมือถือ (Dropdown) -->
-    <div id="mobileMenu" class="md:hidden px-4 pb-4 hidden">
+    </div> -->
+  <!-- เมนูมือถือ (Dropdown) -->
+  <!-- <div id="mobileMenu" class="md:hidden px-4 pb-4 hidden">
       <a href="home.html" class="block py-2 hover:text-gray-300">หน้าหลัก</a>
       <button class="openaddTicket block py-2 hover:text-gray-300">
         เพิ่มโพยหวย
@@ -56,7 +55,7 @@
         ออกจากระบบ
       </button>
     </div>
-  </nav>
+  </nav> -->
 
   <div class="max-w-4xl mx-auto">
     <img src="assets/image/banner.jpg" alt="banner">
@@ -133,21 +132,21 @@
     <table class="w-full border-collapse bg-white mb-4">
       <thead class="bg-indigo-500 text-white uppercase text-sm">
         <tr> -->
-          <!-- <th class="py-2 px-4">เลขที่</th> -->
-          <!-- <th class="py-2 px-4">ชื่อผู้ซื้อ</th>
+  <!-- <th class="py-2 px-4">เลขที่</th> -->
+  <!-- <th class="py-2 px-4">ชื่อผู้ซื้อ</th>
           <th class="py-2 px-4">เลขที่ซื้อ</th>
           <th class="py-2 px-4">ประเภท</th> -->
-          <!-- <th class="py-2 px-4">วันที่</th> -->
-          <!-- <th class="py-2 px-4">จำนวนเงิน</th>
+  <!-- <th class="py-2 px-4">วันที่</th> -->
+  <!-- <th class="py-2 px-4">จำนวนเงิน</th>
         </tr>
       </thead>
       <tbody id="dataList" class="text-gray-700 text-sm text-center"></tbody>
     </table>
   </div>
   <div> -->
-    <p class="text-red-500 text-xs mt-2 text-center mb-2">
-      ข้อมูลอัพเดทเมื่อมาอยู่ที่หน้าแรก
-    </p>
+  <p class="text-red-500 text-xs mt-2 text-center mb-2">
+    ข้อมูลอัพเดทเมื่อมาอยู่ที่หน้าแรก
+  </p>
   </div>
   <!-- <script type="module">
     import { initHomePage } from "./assets/js/home.js";
@@ -171,14 +170,19 @@
       })
     });
   </script> -->
-  <script type="module">
+  <!-- <script type="module">
     import { initHomePage } from "/assets/js/home.js"
 // เมื่อ DOM โหลดเสร็จแล้ว
     document.addEventListener('DOMContentLoaded', () => {
       initHomePage();
     });
 
-  </script>
+  </script> -->
+
+  <script type="module" src="./assets/js/main.js"></script>
+  <script type="module" src="./assets/js/dlgAdd-ticked.js"></script>
+
+
 </body>
 
 </html>

@@ -1,5 +1,3 @@
-// 📁 assets/js/ui.js
-
 export function setupMenuToggle() {
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");

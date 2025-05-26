@@ -6,17 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>บิลถูก</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" />
-    <style>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet" /> -->
+     <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- <style>
         body {
             font-family: "Noto sans Thai", sans-serif;
             background-color: #f9fafb;
         }
-    </style>
+    </style> -->
 </head>
 
 <body>
-    <nav class="bg-indigo-600 text-white shadow-md">
+    <div id="nav-placeholder"></div>
+    <!-- <nav class="bg-indigo-600 text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex-shrink-0">
@@ -24,7 +26,7 @@
                         <img src="assets/image/janjun.png" alt="Logo" />
                     </a>
                 </div>
-                <!-- เมนูด้านขวา -->
+                เมนูด้านขวา
                 <div class="hidden md:flex item-center space-x-6">
                     <a href="home.html" class="hover:text-gray-300">หน้าหลัก</a>
                     <button class="openaddTicket hover:text-gray-300">
@@ -34,7 +36,7 @@
                     <a href="report.html" class="hover:text-gray-300">รายงาน</a>
                     <button class="logoutBtn hover:text-gray-300">ออกจากระบบ</button>
                 </div>
-                <!-- เมนูมือถือ -->
+                เมนูมือถือ
                 <div class="md:hidden">
                     <button id="menuBtn" class="focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +47,7 @@
                 </div>
             </div>
         </div>
-        <!-- เมนูมือถือ (Dropdown) -->
+        เมนูมือถือ (Dropdown)
         <div id="mobileMenu" class="md:hidden px-4 pb-4 hidden">
             <a href="home.html" class="block py-2 hover:text-gray-300">หน้าหลัก</a>
             <button class="openaddTicket block py-2 hover:text-gray-300">
@@ -57,10 +59,11 @@
                 ออกจากระบบ
             </button>
         </div>
-    </nav>
+    </nav> -->
     <h1 class="mt-4">นี่คือหน้าตรวจบิล รออัพเดท...</h1>
+    <script type="module" src="./assets/js/main.js"></script>
 </body>
-<script type="module">
+<!-- <script type="module">
     import { setupMenuToggle, setupLogoutButton } from "./assets/js/ui.js";
     import { setCurrentDate } from "./assets/js/date.js";
     import { setupDigitTypeForm, setupAddTicketForm ,setupDigitTypeHighlight } from "./assets/js/add.js";
@@ -81,6 +84,7 @@
             setupDigitTypeHighlight();
         });
     });
-</script>
+</script> -->
+  <script type="module" src="./assets/js/main.js"></script>
 
 </html>

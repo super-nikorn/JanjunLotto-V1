@@ -1,14 +1,14 @@
-// assets/js/modal.js
+// นำเข้าไฟล์ที่จำเป็น
+import { setupAddTicketForm } from "./forms/save-ticket.js";
 export function setupTicketDialog() {
   const dialogAddTicket = document.getElementById("addTicketDialog");
   const cancelAddTicketBtn = document.getElementById("cancelAddTicketBtn");
   const openAddTicketBtns = document.querySelectorAll(".openaddTicket");
   const addTicketForm = document.getElementById("addTicketForm");
   const currentDateSpan = document.getElementById("currentDate");
-
+  
   if (!(dialogAddTicket && cancelAddTicketBtn && addTicketForm && currentDateSpan)) return;
-
-  // ฟังก์ชันแสดงวันที่ปัจจุบัน
+  
   function setCurrentDate() {
     const today = new Date();
     const yyyy = today.getFullYear();
@@ -16,10 +16,9 @@ export function setupTicketDialog() {
     const dd = String(today.getDate()).padStart(2, "0");
     currentDateSpan.textContent = `${yyyy}-${mm}-${dd}`;
   }
-
+  
   setCurrentDate();
 
-  // เปิด dialog เมื่อกดปุ่ม
   openAddTicketBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       addTicketForm.reset();
@@ -27,20 +26,25 @@ export function setupTicketDialog() {
       dialogAddTicket.showModal();
     });
   });
-
-  // ปิด dialog เมื่อกดปุ่มยกเลิก
+  
   cancelAddTicketBtn.addEventListener("click", () => dialogAddTicket.close());
-
-  // เมื่อ submit form
-  addTicketForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(addTicketForm);
-    const data = Object.fromEntries(formData.entries());
-
-    console.log("ส่งข้อมูลโพยหวย:", data);
-
-    // ปิด dialog หลังบันทึก
-    dialogAddTicket.close();
-  });
+  
+  // เรียกใช้ฟังก์ชันตั้งค่าฟอร์มจาก save-ticket.js
+  setupAddTicketForm();
 }
+
+(async function() {
+  const container = document.getElementById("dialog-placeholder");
+  if (!container) return;
+  
+  try {
+    const response = await fetch("components/dlgAdd-ticked.html");
+    const html = await response.text();
+    container.innerHTML = html;
+
+    // เรียกใช้ฟังก์ชันตั้งค่า
+    setupTicketDialog();
+  } catch (error) {
+    console.error("โหลดฟอร์มไม่สำเร็จ:", error);
+  }
+})();

@@ -1,6 +1,4 @@
-// assets/js/add.js
-
-import { db } from "./firebase-config.js";
+import { db } from "../api/firebase-config.js";
 import {
   collection,
   query,
