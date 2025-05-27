@@ -104,12 +104,12 @@ export function setupDigitTypeForm() {
 
   function setDigitType(type) {
     if (type === "2") {
-      numberInput.maxLength = 2;
+      numberInput.maxLength = 2;  // กำหนดสูงสุด 2 ตัว
       numberInput.placeholder = "เลข 2 ตัว";
       typeSelect.disabled = false;
       reverseCheckbox.disabled = false;
     } else {
-      numberInput.maxLength = 3;
+      numberInput.maxLength = 3;  // กำหนดสูงสุด 3 ตัว (สำหรับ 3 ตัวหน้า/ท้าย)
       numberInput.placeholder =
         type === "3-front" ? "เลข 3 ตัวหน้า" :
           type === "3-back" ? "เลข 3 ตัวท้าย" :
@@ -119,8 +119,9 @@ export function setupDigitTypeForm() {
       reverseCheckbox.checked = false;
     }
 
-    numberInput.value = "";
+    numberInput.value = ""; // ล้างค่าที่กรอกไว้ก่อนหน้า
 
+    // อัปเดตตัวเลือกใน typeSelect (เดิม)
     typeSelect.innerHTML = "";
     typeOptions[type].forEach((val) => {
       const option = document.createElement("option");
@@ -131,15 +132,15 @@ export function setupDigitTypeForm() {
   }
 
 
-digitRadios.forEach((radio) => {
-  radio.addEventListener("change", () => {
-    setDigitType(radio.value);
+  digitRadios.forEach((radio) => {
+    radio.addEventListener("change", () => {
+      setDigitType(radio.value);
+    });
   });
-});
 
-document
-  .querySelector('input[name="digitType"]:checked')
-  ?.dispatchEvent(new Event("change"));
+  document
+    .querySelector('input[name="digitType"]:checked')
+    ?.dispatchEvent(new Event("change"));
 }
 
 
