@@ -17,44 +17,40 @@
   </header>
 
   <main class="max-w-6xl mx-auto">
-    <figure class="mt-2">
+    <figure>
       <img src="assets/image/banner.jpg" alt="banner" class="w-full">
     </figure>
 
-    <section class="mt-2 p-4 bg-white rounded-lg shadow-sm text-center">
-      <h1 class="text-xl font-bold text-gray-800">ผลสลากกินแบ่งรัฐบาล</h1>
-      <p class="text-md text-red-500 mt-1">
+    <section class="p-3 bg-white shadow">
+      <h2 class="text-lg font-bold text-gray-800">ผลหวยรัฐบาลไทย</h2>
+      <p class="text-sm text-gray-600 mb-3">
         งวดวันที่ <span id="lotto-round" class="font-medium">--</span>
       </p>
 
-      <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-gray-700">
+      <div class="grid grid-cols-4 gap-2 text-center">
         <!-- รางวัลที่ 1 -->
-        <article class="p-2 border border-gray-100 rounded">
-          <p class="text-xl md:text-2xl text-red-600 font-bold" id="first-prize">--</p>
+        <div class="p-1 border rounded">
+          <p class="text-red-600 font-bold" id="first-prize">--</p>
           <p class="text-xs text-gray-500">รางวัลที่ 1</p>
-          <p class="text-[10px] text-gray-400">6,000,000 บาท</p>
-        </article>
+        </div>
 
         <!-- เลขหน้า 3 ตัว -->
-        <article class="p-2 border border-gray-100 rounded">
-          <p class="text-lg md:text-xl font-semibold" id="three-front">--</p>
+        <div class="p-1 border rounded">
+          <p class="font-semibold" id="three-front">--</p>
           <p class="text-xs text-gray-500">เลขหน้า 3 ตัว</p>
-          <p class="text-[10px] text-gray-400">4,000 บาท 2 รางวัล</p>
-        </article>
+        </div>
 
         <!-- เลขท้าย 3 ตัว -->
-        <article class="p-2 border border-gray-100 rounded">
-          <p class="text-lg md:text-xl font-semibold" id="three-back">--</p>
+        <div class="p-1 border rounded">
+          <p class="font-semibold" id="three-back">--</p>
           <p class="text-xs text-gray-500">เลขท้าย 3 ตัว</p>
-          <p class="text-[10px] text-gray-400">4,000 บาท 2 รางวัล</p>
-        </article>
+        </div>
 
         <!-- เลขท้าย 2 ตัว -->
-        <article class="p-2 border border-gray-100 rounded">
-          <p class="text-lg md:text-xl font-semibold" id="two-digit">--</p>
+        <div class="p-1 border rounded">
+          <p class="font-semibold" id="two-digit">--</p>
           <p class="text-xs text-gray-500">เลขท้าย 2 ตัว</p>
-          <p class="text-[10px] text-gray-400">2,000 บาท</p>
-        </article>
+        </div>
       </div>
     </section>
 
@@ -111,9 +107,9 @@
 
   </main>
   <script type="module" src="./assets/js/main.js"></script>
-  <script type="module" src="./assets/js/add-ticked.js"></script>
-  <script type="module" src="./assets/js/lotteryResults.js"></script>
-  <script type="module" src="./assets/js/top-numbers.js"></script>
+  <script type="module" src="./assets/js/scripts/add-ticked.js"></script>
+  <script type="module" src="./assets/js/scripts/lotteryResults.js"></script>
+  <script type="module" src="./assets/js/scripts/top-numbers.js"></script>
   <script>
     // แสดงเวลาปัจจุบัน
     document.getElementById('updateTime').textContent = new Date().toLocaleString('th-TH', {

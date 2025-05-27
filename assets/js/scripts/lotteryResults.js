@@ -1,4 +1,4 @@
-import {fetchLatestLottoResults, renderLottoResults} from "../js/api/lotteryAPI.js";
+import {fetchLatestLottoResults, renderLottoResults} from "../api/lotteryAPI.js";
 
 async function loadLotteryResults() {
     const results = await fetchLatestLottoResults();

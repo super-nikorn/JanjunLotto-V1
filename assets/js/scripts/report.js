@@ -1,4 +1,4 @@
-import { fetchLotteryTickets } from './api/fetch-records.js';
+import { fetchLotteryTickets } from '../api/fetch-records.js';
 
 // ตัวแปร Global
 let allTickets = [];

@@ -1,4 +1,4 @@
-import { setupAddTicketForm, setupDigitTypeForm, setupDigitTypeHighlight } from "./forms/save-ticket.js";
+import { setupAddTicketForm, setupDigitTypeForm, setupDigitTypeHighlight } from "../forms/save-ticket.js";
 
 export function setupTicketDialog() {
   const dialogAddTicket = document.getElementById("addTicketDialog");

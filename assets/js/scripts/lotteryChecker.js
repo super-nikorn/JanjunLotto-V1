@@ -1,4 +1,4 @@
-import { fetchLotteryTickets } from '../js/api/fetch-records.js';
+import { fetchLotteryTickets } from '../api/fetch-records.js';
 
 // ข้อมูลผลลอตเตอรี่ (ตัวอย่าง)
 const lotteryResults = {
