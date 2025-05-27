@@ -39,12 +39,21 @@ export async function saveTicket({ name, number, type, amount }) {
   });
 }
 
-// ฟังก์ชันจัดการ submit form
 export function setupAddTicketForm() {
   const form = document.getElementById("addTicketForm");
   const dialogaddTk = document.getElementById("addTicketDialog");
-  const reverseCheckbox = document.getElementById("reverseNumber"); // 👈 เพิ่มบรรทัดนี้
-
+  const reverseCheckbox = document.getElementById("reverseNumber");
+  const numberInput = document.getElementById("numberInput");
+  //ตรวจสอบเลขซ้ำขณะกรอก
+  numberInput.addEventListener('input', () => {
+    const number = numberInput.value;
+    if (number.length === 2 && number[0] === number[1]) {
+      reverseCheckbox.disabled = true;
+      reverseCheckbox.checked = false;
+    } else {
+      reverseCheckbox.disabled = false;
+    }
+  });
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -60,6 +69,12 @@ export function setupAddTicketForm() {
       return;
     }
 
+    //ตรวจสอบเลขซ้ำก่อน submit
+    if (shouldReverse && number.length === 2 && number[0] === number[1]) {
+      alert("ไม่สามารถกลับเลขได้ เนื่องจากกรอกเลขเบิ้ล (เลขซ้ำกัน)");
+      return;
+    }
+
     try {
       form.querySelector('button[type="submit"]').disabled = true;
       await saveTicket({ name, number, type, amount });
@@ -72,8 +87,6 @@ export function setupAddTicketForm() {
       alert("บันทึกโพยเรียบร้อย!");
       form.reset();
       dialogaddTk.close();
-
-      // รีโหลดหรือรีเฟรชข้อมูลแบบอื่นก็ได้
       window.location.reload();
     } catch (err) {
       alert("เกิดข้อผิดพลาด: " + err.message);
