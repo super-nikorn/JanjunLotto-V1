@@ -105,15 +105,15 @@ export function setupDigitTypeForm() {
   function setDigitType(type) {
     if (type === "2") {
       numberInput.maxLength = 2;
-      numberInput.pattern = "\\d{2}";
       numberInput.placeholder = "เลข 2 ตัว";
       typeSelect.disabled = false;
       reverseCheckbox.disabled = false;
     } else {
       numberInput.maxLength = 3;
-      numberInput.pattern = "\\d{3}";
       numberInput.placeholder =
-        type === "3-front" ? "เลข 3 ตัวหน้า" : "เลข 3 ตัวท้าย" ? "เลข 3 ตัวตรง" : "เลข 3 ตัวโต๊ด";
+        type === "3-front" ? "เลข 3 ตัวหน้า" :
+          type === "3-back" ? "เลข 3 ตัวท้าย" :
+            type === "3-straight" ? "เลข 3 ตัวตรง" : "เลข 3 ตัวโต๊ด";
       typeSelect.disabled = true;
       reverseCheckbox.disabled = true;
       reverseCheckbox.checked = false;
@@ -130,15 +130,16 @@ export function setupDigitTypeForm() {
     });
   }
 
-  digitRadios.forEach((radio) => {
-    radio.addEventListener("change", () => {
-      setDigitType(radio.value);
-    });
-  });
 
-  document
-    .querySelector('input[name="digitType"]:checked')
-    ?.dispatchEvent(new Event("change"));
+digitRadios.forEach((radio) => {
+  radio.addEventListener("change", () => {
+    setDigitType(radio.value);
+  });
+});
+
+document
+  .querySelector('input[name="digitType"]:checked')
+  ?.dispatchEvent(new Event("change"));
 }
 
 
