@@ -397,3 +397,36 @@ function debounce(func, wait) {
         }, wait);
     };
 }
+
+// ในไฟล์ report.js เพิ่มฟังก์ชันนี้
+export async function getTopNumbers() {
+    const tickets = await fetchLotteryTickets();
+
+    // แยกเลข 2 ตัวท้าย
+    const twoDigitNumbers = tickets.reduce((acc, ticket) => {
+        const num = ticket.number?.toString().slice(-2) || '00';
+        acc[num] = (acc[num] || 0) + (ticket.amount || 0);
+        return acc;
+    }, {});
+
+    // แยกเลข 3 ตัวหน้า (สมมติว่ามีข้อมูลนี้)
+    const threeFrontNumbers = tickets.reduce((acc, ticket) => {
+        const num = ticket.number?.toString().slice(0, 3) || '000';
+        acc[num] = (acc[num] || 0) + (ticket.amount || 0);
+        return acc;
+    }, {});
+
+    // เรียงลำดับและเลือก Top
+    const topTwoDigit = Object.entries(twoDigitNumbers)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3);
+
+    const topThreeFront = Object.entries(threeFrontNumbers)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3);
+
+    return {
+        topTwoDigit,
+        topThreeFront
+    };
+}
