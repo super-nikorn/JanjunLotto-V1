@@ -20,7 +20,7 @@ async function fetchLotteryTickets() {
       });
     });
 
-    console.log("ตั๋วทั้งหมดที่ดึงมา:", tickets);
+    // console.log("ตั๋วทั้งหมดที่ดึงมา:", tickets);
 
     return tickets;
   } catch (error) {

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รายงานลอตเตอรี่</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 
 
     <!-- SheetJS สำหรับ Export Excel -->
@@ -31,6 +31,39 @@
 
 <body class="bg-gray-100 p-2">
     <div id="nav-placeholder"></div>
+
+    <section class="p-3 bg-white shadow" id="lotto-display">
+        <h2 class="text-lg font-bold text-gray-800">ผลหวยรัฐบาลไทย</h2>
+        <p class="text-sm text-gray-600 mb-3">
+            งวดวันที่ <span id="lotto-round" class="font-medium">--</span>
+        </p>
+
+        <div class="grid grid-cols-4 gap-2 text-center">
+            <!-- รางวัลที่ 1 -->
+            <div class="p-1 border rounded">
+                <p class="text-red-600 font-bold" id="first-prize">--</p>
+                <p class="text-xs text-gray-500">รางวัลที่ 1</p>
+            </div>
+
+            <!-- เลขหน้า 3 ตัว -->
+            <div class="p-1 border rounded">
+                <p class="font-semibold" id="three-front">--</p>
+                <p class="text-xs text-gray-500">เลขหน้า 3 ตัว</p>
+            </div>
+
+            <!-- เลขท้าย 3 ตัว -->
+            <div class="p-1 border rounded">
+                <p class="font-semibold" id="three-back">--</p>
+                <p class="text-xs text-gray-500">เลขท้าย 3 ตัว</p>
+            </div>
+
+            <!-- เลขท้าย 2 ตัว -->
+            <div class="p-1 border rounded">
+                <p class="font-semibold" id="two-digit">--</p>
+                <p class="text-xs text-gray-500">เลขท้าย 2 ตัว</p>
+            </div>
+        </div>
+    </section>
     <div class="max-w-6xl mx-auto">
         <!-- ส่วนหัวรายงาน -->
         <header class="bg-white p-4 mb-4 flex flex-wrap justify-between items-center">
@@ -55,7 +88,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
-                    ส่งออก Excel
+                    Excel
                 </button>
             </div>
         </header>
@@ -67,10 +100,10 @@
                     <!-- ฟิลเตอร์วันที่ -->
                     <div>
                         <label for="filterDate" class="block text-sm font-medium text-gray-700 mb-1">วันที่</label>
-                        <input type="text" id="filterDate" class="border rounded-lg px-3 py-2 text-sm" placeholder="เลือกวันที่"
-                        class="border rounded-lg px-3 py-2 text-sm"
-                        onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}">
-                            
+                        <input type="text" id="filterDate" class="border rounded-lg px-3 py-2 text-sm"
+                            placeholder="เลือกวันที่" class="border rounded-lg px-3 py-2 text-sm"
+                            onfocus="(this.type='date')" onblur="if(this.value===''){this.type='text'}">
+
                     </div>
 
                     <!-- ฟิลเตอร์ประเภท -->
@@ -196,8 +229,9 @@
             </div>
         </section>
     </div>
-  <script type="module" src="./assets/js/main.js"></script>
-  <script type="module" src="./assets/js/scripts/report.js"></script>
+    <script type="module" src="./assets/js/main.js"></script>
+    <script type="module" src="./assets/js/scripts/report.js"></script>
+    <script type="module" src="./assets/js/scripts/lotteryResults.js"></script>
 </body>
 
 </html>
