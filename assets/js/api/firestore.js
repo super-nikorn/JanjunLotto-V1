@@ -1,5 +1,5 @@
 import { db } from "./firebase-config.js";
-import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { doc, getDoc, setDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ตรวจว่าข้อมูลงวดนี้มีหรือยัง
 export async function checkIfRoundExists(date) {
@@ -31,14 +31,18 @@ export async function getLottoResult(date) {
 }
 
 
-export async function getAllRounds() {
-  const querySnapshot = await getDocs(collection(db, "lottoResults"));
-  const dates = [];
-  querySnapshot.forEach((doc) => {
-    dates.push(doc.id); // ใช้ doc.id เพราะเป็นชื่อ "วันที่"
-  });
-
-  // เรียงลำดับจากล่าสุด → เก่าสุด
-  dates.sort((a, b) => new Date(b) - new Date(a));
-  return dates;
+export async function getAllLottoDates() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "lottoResults"));
+        const dates = [];
+        
+        querySnapshot.forEach((doc) => {
+            dates.push(doc.id); // ใช้ doc.id เพราะเราใช้ date เป็น document ID
+        });
+        
+        return dates;
+    } catch (error) {
+        console.error("Error fetching lotto dates: ", error);
+        return [];
+    }
 }

@@ -1,5 +1,4 @@
 import { fetchLotteryTickets } from "../api/fetch-records.js";
-// import { fetchLotteryTickets } from './fetch-records.js';
 
 async function getTopNumbers() {
     const tickets = await fetchLotteryTickets();
