@@ -52,19 +52,19 @@ saveLottoResultFiltered();
 
 
 export async function fetchAllRounds() {
-  const snapshot = await getDocs(collection(db, "recordLotteryResults"));
-  const rounds = [];
-  snapshot.forEach(doc => {
-    rounds.push(doc.id); // doc.id คือวันที่ของงวด
-  });
-  // เรียงจากล่าสุดไปเก่าสุด
-  return rounds.sort((a, b) => new Date(b) - new Date(a));
+    const snapshot = await getDocs(collection(db, "recordLotteryResults"));
+    const rounds = [];
+    snapshot.forEach(doc => {
+        rounds.push(doc.id); // doc.id คือวันที่ของงวด
+    });
+    // เรียงจากล่าสุดไปเก่าสุด
+    return rounds.sort((a, b) => new Date(b) - new Date(a));
 }
 
 // ดึงข้อมูลรางวัลของงวดที่เลือก
 export async function fetchRoundData(date) {
-  const ref = doc(db, "recordLotteryResults", date);
-  const snap = await getDoc(ref);
-  if (!snap.exists()) return null;
-  return snap.data();
+    const ref = doc(db, "recordLotteryResults", date);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) return null;
+    return snap.data();
 }
