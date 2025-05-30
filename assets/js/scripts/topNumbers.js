@@ -1,77 +1,93 @@
 import { fetchLotteryTickets } from "../api/fetchTickets.js";
 
-async function getTopNumbers() {
-    const tickets = await fetchLotteryTickets();
+// import { fetchLotteryTickets } from "./fetchTickets.js";
 
-    // จัดกลุ่มและเรียงลำดับ
-    return tickets.reduce((acc, ticket) => {
-        const type = ticket.type || 'อื่นๆ';
-        if (!acc[type]) acc[type] = [];
+// ฟังก์ชันสำหรับแสดงข้อมูล
+async function showDataCurrent() {
+  clearDisplay(); // เคลียร์ข้อมูลก่อนแสดงใหม่
 
-        acc[type].push({
-            number: ticket.number,
-            amount: ticket.amount || 0
-        });
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.getMonth();
+  const year = today.getFullYear();
 
-        // เรียงลำดับตามยอดเงิน (มากไปน้อย)
-        acc[type].sort((a, b) => b.amount - a.amount);
+  const fromDate = new Date(year, month, day < 17 ? 1 : 17);
+  const toDate = today;
 
-        return acc;
-    }, {});
+  const formatDate = (date) => date.toISOString().split("T")[0];
+  const formattedFrom = formatDate(fromDate);
+  const formattedTo = formatDate(toDate);
+
+  // แสดงช่วงวันที่
+  document.getElementById("showFormDateToDate").textContent = `${formattedFrom} ถึง ${formattedTo}`;
+
+  // ดึงและกรองข้อมูล
+  const tickets = await fetchLotteryTickets();
+  const filtered = tickets.filter((ticket) => {
+    const ticketDate = ticket.date.split("T")[0];
+    return ticketDate >= formattedFrom && ticketDate <= formattedTo;
+  });
+
+  // จัดกลุ่มตาม type
+  const grouped = {};
+  filtered.forEach((ticket) => {
+    if (!grouped[ticket.type]) grouped[ticket.type] = [];
+    grouped[ticket.type].push(ticket);
+  });
+
+  // สร้าง top 5
+  const top5ByType = {};
+  for (const type in grouped) {
+    top5ByType[type] = grouped[type]
+      .sort((a, b) => b.amount - a.amount)
+      .slice(0, 5);
+  }
+
+  // แสดงผลในหน้าเว็บ
+  displayTopNumbers(top5ByType);
 }
 
-function renderTypeCard(type, items) {
-    return `
-    <div class="bg-gray-50 rounded-lg shadow-sm overflow-hidden">
-      <div class="px-3 py-2 border-b border-gray-200">
-        <h3 class="text-sm font-medium text-gray-700">${type}<span> 🔥 </span></h3>
-      </div>
-      <div class="divide-y divide-gray-200">
-        ${items.slice(0, 5).map(item => `
-          <div class="px-3 py-2 flex justify-between items-center">
-            <span class="text-sm">${item.number}</span>
-            <span class="text-xs bg-blue-50 text-indigo-500 px-2 py-1 rounded">
-              ${item.amount.toLocaleString('th-TH')}฿
-            </span>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `;
+// ฟังก์ชันล้างข้อมูล
+function clearDataForm() {
+  clearDisplay();
+  alert("ล้างข้อมูลแล้ว");
 }
 
-async function displayTopNumbers() {
-    try {
-        const topNumbers = await getTopNumbers();
-        const container = document.getElementById('topNumbersContainer');
+// เคลียร์ข้อมูลที่แสดง
+function clearDisplay() {
+  document.getElementById("resultContainer").innerHTML = "";
+  document.getElementById("showFormDateToDate").textContent = "";
+}
 
-        // ประเภทที่ต้องการแสดง (เรียงลำดับตามที่ต้องการ)
-        const displayOrder = [
-            'บน', 'ล่าง', 'บน-ล่าง',
-            '3 ตัวหน้า', '3 ตัวท้าย',
-            '3 ตัวตรง', '3 ตัวโต๊ด'
-        ];
+// สร้าง HTML สำหรับแสดงข้อมูล
+function displayTopNumbers(data) {
+  const container = document.getElementById("resultContainer");
+  container.innerHTML = ""; // เคลียร์ก่อน
 
-        container.innerHTML = `
-      <div class="grid grid-cols-1 gap-3">
-        ${displayOrder.map(type =>
-            topNumbers[type] ? renderTypeCard(type, topNumbers[type]) : ''
-        ).join('')}
+  for (const type in data) {
+    const listItems = data[type]
+      .map(
+        (item) => `
+        <li class="flex justify-between border-b border-gray-100 py-1">
+          <span class="font-medium text-gray-700">${item.number}</span>
+          <span class="text-sm text-gray-500">${item.amount} ฿</span>
+        </li>
+      `
+      )
+      .join("");
+
+    container.innerHTML += `
+      <div class="bg-white rounded-xl shadow-md p-4 my-4">
+        <h3 class="text-lg font-semibold text-indigo-500 border-b border-gray-200 pb-2 mb-2">${type}</h3>
+        <ul class="text-sm text-gray-600 list-none">
+          ${listItems}
+        </ul>
       </div>
     `;
-
-    } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('topNumbersContainer').innerHTML = `
-      <div class="text-center py-8 text-sm text-gray-500">
-        <p>ไม่สามารถโหลดข้อมูลได้</p>
-        <button onclick="location.reload()" class="mt-2 text-xs text-blue-500 underline">
-          ลองอีกครั้ง
-        </button>
-      </div>
-    `;
-    }
+  }
 }
 
-// เริ่มทำงานเมื่อ DOM พร้อม
-document.addEventListener('DOMContentLoaded', displayTopNumbers);
+
+// Export ไปใช้ใน HTML
+window.showDataCurrent = showDataCurrent;
+window.clearDataForm = clearDataForm;
