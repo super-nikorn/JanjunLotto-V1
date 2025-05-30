@@ -25,11 +25,11 @@
     <article class="stats-card bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden mt-4">
       <header class="grid grid-cols-2 border-b border-gray-100 p-4">
         <h2 class="text-gray-600 text-sm font-medium">สรุปยอดประจำเดือน</h2>
-        <button class="openaddTicket text-white bg-green-500 rounded-md text-sm">
-          เพิ่มโพยหวย +
-        </button>
+          <button class="openaddTicket text-white bg-green-500 rounded-md text-sm ml-auto">
+            เพิ่มโพยหวย +
+          </button>
       </header>
-
+      
       <div class="content p-5 flex items-center justify-between">
         <section class="main-stat">
           <h3 class="text-gray-500 text-sm">ยอดรวมทั้งหมด</h3>
@@ -50,9 +50,20 @@
         </section>
       </div>
     </article>
-
+    
     <div class="bg-white max-w-6xl mx-auto shadow-md rounded-xl p-2 mt-4">
-      <p class="text-xl font-light text-gray-700 underline pl-2">ตัวเลขที่มีคนซื้อเยอะที่สุด</p>
+      <div class="flex font-light text-gray-700 pl-2">
+        <p>ตัวเลขที่มีคนซื้อเยอที่สุด</p>
+        <button onclick="showDataCurrent()" id="btnUpdate" class="text-white bg-green-500 rounded-md text-sm ml-auto">
+          แสดงข้อมูลปัจจุบัน
+          <script>
+            function showDataCurrent(){
+              alert("นักพัฒนากำลังอัพเดท กรุณารอสักครู่");
+              window.location.reload();
+              }
+          </script>
+        </button>
+      </div>
       <p class="text-xs text-gray-400 pl-2">อัปเดตล่าสุด: <span id="updateTime"></span></p>
 
       <!-- Top Numbers Container -->
@@ -70,11 +81,9 @@
       </footer>
     </div>
     </div>
-
   </main>
   <script type="module" src="./assets/js/main.js"></script>
   <script type="module" src="./assets/js/scripts/addTickets.js"></script>
   <script type="module" src="./assets/js/scripts/topNumbers.js"></script>
-  <script type="module" src="./assets/js/api/firestore.js"></script>
 </body>
 </html>
