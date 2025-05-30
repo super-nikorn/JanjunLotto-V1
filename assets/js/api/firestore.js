@@ -1,78 +1,70 @@
-import { db } from "./firebase-config.js";
-import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { db } from "./firebaseConfig.js";
+import {
+    doc,
+    getDoc,
+    setDoc,
+    getDocs,
+    collection
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { fetchLatestLottoResults } from "./lotteryAPI.js";
-import { getNextLottoDate } from "./nextLotto-round.js"; // ✅ ต้องสร้างไฟล์ utils.js แยกด้วย
 
 // ตรวจว่าข้อมูลงวดนี้มีหรือยัง
 export async function checkIfRoundExists(date) {
-    const ref = doc(db, "lottoLatest", date);
+    const ref = doc(db, "recordLotteryResults", date);
     const snap = await getDoc(ref);
     return snap.exists();
 }
 
-export async function saveLottoResultFiltered(data) {
-    if (!data || !data.date) {
-        console.error("❌ ไม่มีข้อมูลหรือฟอร์แมตข้อมูลไม่ถูกต้อง");
+// ✅ บันทึกเฉพาะข้อมูลที่ต้องการ
+export async function saveLottoResultFiltered() {
+    const data = await fetchLatestLottoResults();
+
+    if (!data) {
+        console.log("❌ ไม่สามารถดึงข้อมูลหวยได้");
         return;
     }
 
-    // เช็คว่า data.prizes และ data.runningNumbers มีข้อมูลก่อนใช้งาน
-    const prizes = Array.isArray(data.prizes) ? data.prizes : [];
-    const runningNumbers = Array.isArray(data.runningNumbers) ? data.runningNumbers : [];
+    const exists = await checkIfRoundExists(data.date);
+    if (exists) {
+        console.log(`ℹ️ งวด ${data.date} มีอยู่แล้วในฐานข้อมูล`);
+    }
 
     const filtered = {
         date: data.date,
-        firstPrize: prizes.find(p => p.id === "prizeFirst")?.number?.[0] || "--",
-        threeFront: runningNumbers.find(p => p.id === "runningNumberFrontThree")?.number || [],
-        threeBack: runningNumbers.find(p => p.id === "runningNumberBackThree")?.number || [],
-        twoDigit: runningNumbers.find(p => p.id === "runningNumberBackTwo")?.number?.[0] || "--",
-        isPlaceholder: false,  // แสดงว่าข้อมูลนี้คือผลจริง
+        firstPrize: data.prizes.find(p => p.id === "prizeFirst")?.number[0] || "--",
+        threeFront: data.runningNumbers.find(p => p.id === "runningNumberFrontThree")?.number || [],
+        threeBack: data.runningNumbers.find(p => p.id === "runningNumberBackThree")?.number || [],
+        twoDigit: data.runningNumbers.find(p => p.id === "runningNumberBackTwo")?.number[0] || "--",
     };
 
-    const ref = doc(db, "lottoLatest", filtered.date);
+    const ref = doc(db, "recordLotteryResults", filtered.date);
+    await setDoc(ref, filtered);
+    // แสดงข้อมูลใน console
+    console.log(`✅ บันทึกงวด ${filtered.date} แล้ว`);
+    console.log(`🎯 รางวัลที่ 1: ${filtered.firstPrize}`);
+    console.log(`🔢 3 ตัวหน้า: ${filtered.threeFront.join(", ")}`);
+    console.log(`🔢 3 ตัวท้าย: ${filtered.threeBack.join(", ")}`);
+    console.log(`🔚 2 ตัวท้าย: ${filtered.twoDigit}`);
+    return
 
-    // เขียนทับโดยไม่ลบฟิลด์อื่น ๆ ใน document
-    await setDoc(ref, filtered, { merge: true });
+}
+saveLottoResultFiltered();
 
-    console.log(`✅ บันทึกงวด ${filtered.date} แล้ว (เฉพาะข้อมูลที่ต้องการ)`);
+
+export async function fetchAllRounds() {
+  const snapshot = await getDocs(collection(db, "recordLotteryResults"));
+  const rounds = [];
+  snapshot.forEach(doc => {
+    rounds.push(doc.id); // doc.id คือวันที่ของงวด
+  });
+  // เรียงจากล่าสุดไปเก่าสุด
+  return rounds.sort((a, b) => new Date(b) - new Date(a));
 }
 
-
-// ✅ สร้างเอกสารเปล่าสำหรับงวดถัดไป
-export async function createNextRoundIfNotExists(nextDate) {
-    const ref = doc(db, "lottoLatest", nextDate);
-    const snap = await getDoc(ref);
-    if (!snap.exists()) {
-        await setDoc(ref, {
-            date: nextDate,
-            firstPrize: null,
-            threeFront: [],
-            threeBack: [],
-            twoDigit: null,
-            isPlaceholder: true, // 🔍 ใช้ flag นี้เพื่อแยกข้อมูลเปล่า
-        });
-        console.log(`📝 สร้างเอกสารล่วงหน้างวด ${nextDate} แล้ว`);
-    } else {
-        console.log(`ℹ️ เอกสารงวด ${nextDate} มีอยู่แล้ว`);
-    }
+// ดึงข้อมูลรางวัลของงวดที่เลือก
+export async function fetchRoundData(date) {
+  const ref = doc(db, "recordLotteryResults", date);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+  return snap.data();
 }
-
-
-// ✅ เรียกใช้งานเมื่อไฟล์โหลด
-(async () => {
-    const data = await fetchLatestLottoResults();
-    if (data) {
-        const exists = await checkIfRoundExists(data.date);
-        if (!exists) {
-            await saveLottoResultFiltered(data);
-        } else {
-            console.log(`ℹ️ งวด ${data.date} มีอยู่แล้วในฐานข้อมูล`);
-        }
-    }
-
-    // ✅ สร้างงวดถัดไปล่วงหน้า
-    const nextDate = getNextLottoDate();
-    await createNextRoundIfNotExists(nextDate);
-})();
-
-

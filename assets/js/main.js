@@ -1,4 +1,5 @@
 import { setupMenuToggle, setupLogoutButton } from "./nav.js";
+import { setupLottoDisplay } from "../js/scripts/lottoDisplay.js";
 
 async function loadComponent(url, containerId) {
     try {
@@ -13,28 +14,11 @@ async function loadComponent(url, containerId) {
     }
 }
 
-async function loadNav() {
-    const navLoaded = await loadComponent("components/nav.html", "nav-placeholder");
-    if (navLoaded) {
-        setupMenuToggle();
-        setupLogoutButton();
-    }
-}
-
-async function loadLottoDisplay() {
-    const lottoLoaded = await loadComponent("components/lottoDisplay.html", "lotto-placeholder");
-    if (lottoLoaded) {
-        try {
-            await import("./scripts/lotteryResults.js");
-        } catch (error) {
-            console.error("โหลดสคริปต์ lotteryResults ล้มเหลว:", error);
-        }
-    }
-}
-
 async function init() {
-    await loadNav();
-    await loadLottoDisplay();
+    await loadComponent("components/nav.html", "nav-placeholder");
+    await loadComponent("components/lottoDisplay.html", "lotto-placeholder");
+    setupMenuToggle();
+    setupLogoutButton();
+    setupLottoDisplay(); // 🔁 เพิ่มการเรียกใช้
 }
-
 init();

@@ -1,4 +1,4 @@
-import { setupAddTicketForm, setupDigitTypeForm, setupDigitTypeHighlight } from "../forms/save-ticket.js";
+import { setupAddTicketForm, setupDigitTypeForm, setupDigitTypeHighlight } from "../forms/saveTicket.js";
 
 export function setupTicketDialog() {
   const dialogAddTicket = document.getElementById("addTicketDialog");
@@ -42,7 +42,7 @@ export function setupTicketDialog() {
   if (!container) return;
   
   try {
-    const response = await fetch("components/add-ticked.html");
+    const response = await fetch("components/addTicket.html");
     const html = await response.text();
     container.innerHTML = html;
 
