@@ -31,8 +31,8 @@
       <input type="text" name="name" placeholder="ชื่อผู้ซื้อ" class="w-full p-2 border rounded" required />
     </div>
     
-    <input type="text" name="number" id="numberInput" placeholder="เลขที่ซื้อ" class="w-full p-2 border rounded mb-2"
-    pattern="\d{2}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" inputmode="numeric" required />
+    <input type="number" name="number" id="numberInput" placeholder="เลขที่ซื้อ" class="w-full p-2 border rounded mb-2"
+    pattern="\d{2}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" inputmode="numeric" required/>
     <p class="text-red-500 text-xs mt-2 text-left">
       **หากลงเลขเบิ้ลระบบจะไม่สามารถกลับเลขได้
     </p>
@@ -56,8 +56,8 @@
         **หากเลือกระบบจะกลับเลขให้อัตโนมัติ </span>
       </label>
     </div>
-    <input type="text" name="amount" placeholder="จำนวนเงิน" class="w-full p-2 border rounded"
-      oninput="this.value = this.value.replace(/[^0-9]/g, '')" inputmode="numeric" required />
+    <input type="number" name="amount" placeholder="จำนวนเงิน" class="w-full p-2 border rounded"
+      oninput="this.value = this.value.replace(/[^0-9]/g, '')" inputmode="numeric" required/>
 
     <p class="text-xs">วันที่ : <span id="currentDate"></span></p>
 

@@ -45,7 +45,7 @@ export function setupAddTicketForm() {
   const reverseCheckbox = document.getElementById("reverseNumber");
   const numberInput = document.getElementById("numberInput");
   //ตรวจสอบเลขซ้ำขณะกรอก
-  numberInput.addEventListener('input', () => {
+  numberInput.addEventListener("input", () => {
     const number = numberInput.value;
     if (number.length === 2 && number[0] === number[1]) {
       reverseCheckbox.disabled = true;
@@ -101,9 +101,10 @@ export function setupDigitTypeForm() {
   const digitRadios = document.querySelectorAll('input[name="digitType"]');
   const numberInput = document.getElementById("numberInput");
   const typeSelect = document.getElementById("typeSelect");
-  const reverseCheckbox = document.getElementById("reverseNumber")
+  const reverseCheckbox = document.getElementById("reverseNumber");
+
   if (!digitRadios.length || !numberInput || !typeSelect || !reverseCheckbox) {
-    console.error("Element not found for setupDigitTypeForm");
+    console.error("Required elements not found for setupDigitTypeForm");
     return;
   }
 
@@ -116,25 +117,34 @@ export function setupDigitTypeForm() {
   };
 
   function setDigitType(type) {
-    if (type === "2") {
-      numberInput.maxLength = 2;  // กำหนดสูงสุด 2 ตัว
+    // ตั้งค่าตามประเภทที่เลือก
+    const isTwoDigit = type === "2";
+    const maxLen = isTwoDigit ? 2 : 3;
+
+    numberInput.maxLength = maxLen;
+    numberInput.value = ""; // ล้างค่าที่กรอกไว้ก่อนหน้า
+
+    if (isTwoDigit) {
       numberInput.placeholder = "เลข 2 ตัว";
       typeSelect.disabled = false;
       reverseCheckbox.disabled = false;
+      reverseCheckbox.checked = false;
     } else {
-      numberInput.maxLength = 3;  // กำหนดสูงสุด 3 ตัว (สำหรับ 3 ตัวหน้า/ท้าย)
       numberInput.placeholder =
-        type === "3-front" ? "เลข 3 ตัวหน้า" :
-          type === "3-back" ? "เลข 3 ตัวท้าย" :
-            type === "3-straight" ? "เลข 3 ตัวตรง" : "เลข 3 ตัวโต๊ด";
+        type === "3-front"
+          ? "เลข 3 ตัวหน้า"
+          : type === "3-back"
+          ? "เลข 3 ตัวท้าย"
+          : type === "3-straight"
+          ? "เลข 3 ตัวตรง"
+          : "เลข 3 ตัวโต๊ด";
       typeSelect.disabled = true;
+      // ปิดใช้งานและยกเลิกการเลือก reverseCheckbox โดยไม่ต้องตรวจสอบเงื่อนไขอื่น
       reverseCheckbox.disabled = true;
       reverseCheckbox.checked = false;
     }
 
-    numberInput.value = ""; // ล้างค่าที่กรอกไว้ก่อนหน้า
-
-    // อัปเดตตัวเลือกใน typeSelect (เดิม)
+    // อัปเดตตัวเลือกใน typeSelect
     typeSelect.innerHTML = "";
     typeOptions[type].forEach((val) => {
       const option = document.createElement("option");
@@ -144,19 +154,48 @@ export function setupDigitTypeForm() {
     });
   }
 
+  // ตรวจสอบเลขซ้ำขณะกรอก (เฉพาะเลข 2 ตัว)
+  numberInput.addEventListener("input", function () {
+    const selectedType = document.querySelector(
+      'input[name="digitType"]:checked'
+    )?.value;
+    if (selectedType === "2") {
+      // ตัดข้อความหากเกิน 2 ตัว
+      if (this.value.length > 2) {
+        this.value = this.value.slice(0, 2);
+      }
 
+      // ตรวจสอบเลขซ้ำ
+      if (this.value.length === 2 && this.value[0] === this.value[1]) {
+        reverseCheckbox.disabled = true;
+        reverseCheckbox.checked = false;
+      } else {
+        reverseCheckbox.disabled = false;
+      }
+    } else {
+      // ตัดข้อความหากเกิน 3 ตัวสำหรับประเภทอื่น
+      if (this.value.length > 3) {
+        this.value = this.value.slice(0, 3);
+      }
+      // ต้องปิด reverseCheckbox สำหรับทุกกรณีของ 3 ตัว
+      reverseCheckbox.disabled = true;
+      reverseCheckbox.checked = false;
+    }
+  });
+
+  // ตั้งค่าเมื่อเปลี่ยนประเภท
   digitRadios.forEach((radio) => {
     radio.addEventListener("change", () => {
       setDigitType(radio.value);
     });
   });
 
-  document
-    .querySelector('input[name="digitType"]:checked')
-    ?.dispatchEvent(new Event("change"));
+  // เรียกใช้ทันทีสำหรับ input ที่ถูกเลือกอยู่แล้ว
+  const initialType = document.querySelector(
+    'input[name="digitType"]:checked'
+  )?.value;
+  if (initialType) setDigitType(initialType);
 }
-
-
 export function setupDigitTypeHighlight() {
   const group = document.getElementById("digitTypeGroup");
 

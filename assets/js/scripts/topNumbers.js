@@ -1,7 +1,36 @@
 import { fetchLotteryTickets } from "../api/fetchTickets.js";
 
 // import { fetchLotteryTickets } from "./fetchTickets.js";
+async function loadTicketStats() {
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.getMonth();
+  const year = today.getFullYear();
 
+  const fromDate = new Date(year, month, day < 17 ? 1 : 17);
+  const toDate = today;
+
+  const formatDate = (date) => date.toISOString().split("T")[0];
+  const formattedFrom = formatDate(fromDate);
+  const formattedTo = formatDate(toDate);
+
+  const tickets = await fetchLotteryTickets();
+  const filtered = tickets.filter((ticket) => {
+    const ticketDate = ticket.date.split("T")[0];
+    return ticketDate >= formattedFrom && ticketDate <= formattedTo;
+  });
+
+  let totalPrize = 0;
+  let totalBills = filtered.length;
+
+  filtered.forEach((ticket) => {
+    totalPrize += ticket.amount;
+  });
+
+  // แสดงผล
+  document.getElementById("totalTicketsPrize").textContent = totalPrize.toLocaleString();
+  document.getElementById("totalTicketsAmount").textContent = totalBills.toLocaleString();
+}
 // ฟังก์ชันสำหรับแสดงข้อมูล
 async function showDataCurrent() {
   clearDisplay(); // เคลียร์ข้อมูลก่อนแสดงใหม่
@@ -27,6 +56,7 @@ async function showDataCurrent() {
     const ticketDate = ticket.date.split("T")[0];
     return ticketDate >= formattedFrom && ticketDate <= formattedTo;
   });
+
 
   // จัดกลุ่มตาม type
   const grouped = {};
@@ -88,6 +118,10 @@ function displayTopNumbers(data) {
 }
 
 
+
 // Export ไปใช้ใน HTML
 window.showDataCurrent = showDataCurrent;
 window.clearDataForm = clearDataForm;
+window.addEventListener("DOMContentLoaded", () => {
+  loadTicketStats();
+});
